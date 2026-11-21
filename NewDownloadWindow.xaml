@@ -1,0 +1,114 @@
+<Window x:Class="DOWN_MNG.NewDownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Enter New Download Address" 
+        Height="360" Width="580" 
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Video Detected Banner -->
+            <RowDefinition Height="Auto"/> <!-- URL Input Row -->
+            <RowDefinition Height="*"/>    <!-- Stats GroupBox -->
+            <RowDefinition Height="Auto"/> <!-- Save Location -->
+            <RowDefinition Height="Auto"/> <!-- Buttons Row -->
+        </Grid.RowDefinitions>
+
+        <!-- Video Detected Banner -->
+        <Border x:Name="VideoBanner" Grid.Row="0" Background="#FFF9E6" BorderBrush="#FFD666" BorderThickness="1" Padding="8,4" Margin="0,0,0,8" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="VideoBannerText" Text="Video detected. Open in Video Grabber?" VerticalAlignment="Center"/>
+                <Button Content="Open Video Grabber" Grid.Column="1" Padding="8,2" Click="OpenVideoGrabber_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Cloud Hoster Detected Banner -->
+        <Border x:Name="CloudBanner" Grid.Row="0" Background="#EBF3FB" BorderBrush="#91C7F2" BorderThickness="1" Padding="8,4" Margin="0,0,0,8" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="CloudBannerText" Text="Cloud Hoster link detected." VerticalAlignment="Center" Foreground="#0066CC" FontWeight="SemiBold"/>
+                <Button x:Name="FolderBatchButton" Content="Open in Batch Grabber" Grid.Column="1" Padding="8,2" Click="FolderBatchButton_Click" Visibility="Collapsed"/>
+            </Grid>
+        </Border>
+
+        <!-- URL Input Row -->
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Address (URL):" VerticalAlignment="Center" Width="90"/>
+            
+            <TextBox x:Name="UrlTextBox" Grid.Column="1" 
+                     Padding="4,2" Margin="0,0,6,0" VerticalContentAlignment="Center"
+                     TextChanged="UrlTextBox_TextChanged"/>
+
+            <Button Content="Batch Grab..." Grid.Column="2" Padding="8,2" Margin="0,0,6,0" Click="BatchGrabButton_Click" ToolTip="Extract multiple links from text"/>
+            <Button Content="Torrent..." Grid.Column="3" Padding="8,2" Margin="0,0,6,0" Click="BrowseTorrentButton_Click"/>
+            <Button Content="Check" Grid.Column="4" Padding="12,2" Click="AnalyzeButton_Click"/>
+        </Grid>
+
+        <!-- File Details GroupBox -->
+        <GroupBox Grid.Row="2" Header="File Information" Margin="0,0,0,8" Padding="8">
+            <StackPanel VerticalAlignment="Center">
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="File Name:" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBox x:Name="FileNameTextBox" Grid.Column="1" FontWeight="Bold" Background="Transparent" BorderThickness="0" Padding="0" VerticalAlignment="Center"/>
+                </Grid>
+                
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="File Size:" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBlock x:Name="FileSizeTextBlock" Grid.Column="1" Text="Unknown" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="CategoryBadgeText" Grid.Column="2" Text="Direct" Foreground="{DynamicResource TextSecondary}"/>
+                </Grid>
+
+                <Separator Margin="0,4,0,6"/>
+
+                <TextBlock x:Name="StatusTextBlock" Text="Enter URL and click Check to examine file." Foreground="#0066CC"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Save Path Selector -->
+        <Grid Grid.Row="3" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Save To:" VerticalAlignment="Center" Width="90"/>
+            <TextBox x:Name="PathTextBox" Grid.Column="1" Padding="4,2" Margin="0,0,6,0" IsReadOnly="True" VerticalContentAlignment="Center"/>
+            <Button Content="Browse..." Grid.Column="2" Padding="10,2" Click="BrowseButton_Click"/>
+        </Grid>
+
+        <!-- Footer Buttons -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="DownloadButton" Content="Download Now" IsDefault="True" Width="100" Margin="0,0,8,0" IsEnabled="False" Click="DownloadButton_Click"/>
+            <Button Content="Cancel" IsCancel="True" Width="75" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

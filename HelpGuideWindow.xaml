@@ -1,0 +1,158 @@
+<Window x:Class="DOWN_MNG.HelpGuideWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NexLoad Pro — User Guide &amp; Tutorials" 
+        Height="540" Width="680" 
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Header -->
+            <RowDefinition Height="*"/>    <!-- Tabs Area -->
+            <RowDefinition Height="Auto"/> <!-- Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="NexLoad Pro Documentation &amp; User Manual" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="Step-by-step instructions for acceleration, cloud hosters, video grabbing, torrents and browser integration." FontSize="11.5" Foreground="{DynamicResource TextSecondary}" Margin="0,2,0,0"/>
+        </StackPanel>
+
+        <!-- Tabbed Content -->
+        <TabControl x:Name="HelpTabControl" Grid.Row="1" Margin="0,0,0,12">
+            <!-- 1. GENERAL DOWNLOADS -->
+            <TabItem Header="General Downloads">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="1. Adding a Download" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Click 'Add URL' (Ctrl+N) or paste any direct download link (HTTP, HTTPS, or FTP). The application queries the remote server for range capability and file size automatically." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="2. Multi-threaded Stream Acceleration" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="NexLoad divides files into up to 8-32 parallel connections. Each connection downloads a specific chunk directly to disk, dramatically overcoming server throttling." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="3. Drag &amp; Drop Support" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="You can drag and drop any URL, text containing links, or local .torrent file directly into the main window to start downloading immediately." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="4. Speed Limiter &amp; Scheduler" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Need to preserve internet bandwidth for streaming or gaming? Use the Speed Limiter in the status bar or menu. Automate overnight queues with the Scheduler (Downloads -> Scheduler)." TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 2. VIDEO GRABBER & BATCH -->
+            <TabItem Header="Video Grabber &amp; Batch">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Universal Media &amp; Video Grabber (Ctrl+G)" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="NexLoad integrates an automated yt-dlp &amp; FFmpeg engine to download video and audio from YouTube, Facebook, TikTok, Instagram, Twitter/X, and more." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="Selecting Formats &amp; Audio Only (MP3)" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="When analyzing a video link, you can choose from 1080p FHD, 4K UHD, 720p HD, or lossless MP3 Audio extraction. The audio and video streams are automatically merged seamlessly." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="Batch Link Grabber from Text (Ctrl+B)" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Have an email, article, or chat message containing multiple links? Click 'Batch Grab' in the toolbar. Paste any text block, and NexLoad will automatically scan, filter, and queue all links at once!" TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 3. TORRENT & MAGNETS -->
+            <TabItem Header="Torrents &amp; Magnets">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Full BitTorrent &amp; Magnet Support" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Powered by the embedded MonoTorrent engine with DHT (Distributed Hash Table) and peer-exchange acceleration." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="Selective File Download" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="When adding a torrent or magnet link, a file selection dialog appears allowing you to select only the specific files or folders you wish to download." TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 4. CLOUD HOSTERS -->
+            <TabItem Header="Cloud Hosters (Pixeldrain &amp; MEGA)">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Direct Cloud Hosters &amp; Storage Downloads (JDownloader Style)" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="NexLoad Pro natively resolves direct high-speed streams from major file sharing platforms without requiring slow browser redirects or captcha delays." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="Pixeldrain Integration" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Paste any pixeldrain.com/u/{id} or pixeldrain.com/l/{id} (album) link. The app automatically fetches the real file name, exact byte size, and accelerates download using 8 to 16 multi-threaded HTTP connections." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="MEGA (mega.nz) with End-to-End Decryption" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Supports direct downloading and on-the-fly streaming decryption of public MEGA file links (mega.nz/file/{id}#{key}) and entire MEGA folders. Streams write directly to disk with live transfer speed &amp; progress calculation." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="MediaFire, Google Drive, Dropbox &amp; GoFile" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="Directly bypasses web landing pages to grab clean, high-speed chunked streams for MediaFire links, Google Drive large file virus scan warnings, and Dropbox links." TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 4. BROWSER EXTENSION -->
+            <TabItem Header="Browser Extension">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Installing the Browser Extension (Chrome &amp; Edge)" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="1. Open your browser and navigate to chrome://extensions/ (or edge://extensions/).&#x0a;2. Enable 'Developer mode' toggle in the top-right corner.&#x0a;3. Click 'Load unpacked' and select the 'BrowserExtension' folder inside your NexLoad directory.&#x0a;4. That's it! Browser downloads and right-click 'Download with NexLoad' are now linked to this app." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Text="Local Communication Port: 3015" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
+                        <TextBlock Text="The extension communicates with NexLoad via a lightweight local HTTP server (http://localhost:3015) with zero internet exposure." TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <Border Margin="0,16,0,0" Padding="12" Background="{DynamicResource BgCard}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Quick 1-Click Setup Tool" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
+                                <TextBlock Text="Use our automated 1-Click setup wizard to detect Chrome/Edge, load the extension automatically, and verify connection instantly." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>
+                                <Button Content="Open 1-Click Browser Extension Setup..." Padding="16,6" HorizontalAlignment="Left" Click="OpenExtensionSetup_Click"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- 5. KEYBOARD SHORTCUTS -->
+            <TabItem Header="Keyboard Shortcuts">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                            <RowDefinition Height="26"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Ctrl + N" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Add new download URL or link" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Grid.Row="1" Text="Ctrl + G" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Open Universal Media &amp; Video Grabber" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Grid.Row="2" Text="Ctrl + B" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Open Batch Link Grabber (Extract from Text)" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Grid.Row="3" Text="Del" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Remove selected download from list" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Grid.Row="4" Text="Double-Click" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="Open completed file or resume download" Foreground="{DynamicResource TextSecondary}"/>
+
+                        <TextBlock Grid.Row="5" Text="Alt + F4" FontWeight="Bold"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="Exit NexLoad Pro" Foreground="{DynamicResource TextSecondary}"/>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Close" IsDefault="True" IsCancel="True" Width="75" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

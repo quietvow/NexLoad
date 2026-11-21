@@ -1,0 +1,108 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Window Titles & Common -->
+    <sys:String x:Key="AppTitle">NexLoad Pro — High-Speed Downloader &amp; Media Grabber</sys:String>
+    <sys:String x:Key="LanguageToggle">Switch Language (සිංහල)</sys:String>
+    
+    <!-- Top Menu -->
+    <sys:String x:Key="MenuTasks">_Tasks</sys:String>
+    <sys:String x:Key="MenuAddUrl">Add new download...</sys:String>
+    <sys:String x:Key="MenuVideoGrabber">Media &amp; Video Grabber...</sys:String>
+    <sys:String x:Key="MenuBatchGrab">Batch Link Grabber (From Text)...</sys:String>
+    <sys:String x:Key="TbBatchGrab">Batch Grab</sys:String>
+    <sys:String x:Key="MenuBrowserExtensionSetup">Browser Extension Setup (1-Click)...</sys:String>
+    <sys:String x:Key="MenuYouTubeGrabber">Download YouTube Video...</sys:String>
+    <sys:String x:Key="MenuFacebookGrabber">Download Facebook Video...</sys:String>
+    <sys:String x:Key="MenuTikTokGrabber">Download TikTok Video...</sys:String>
+    <sys:String x:Key="MenuExport">Export Downloads...</sys:String>
+    <sys:String x:Key="MenuImport">Import Downloads...</sys:String>
+    <sys:String x:Key="MenuExit">Exit</sys:String>
+    
+    <sys:String x:Key="MenuFile">_File</sys:String>
+    <sys:String x:Key="MenuDownloadNow">Download Now / Resume</sys:String>
+    <sys:String x:Key="MenuStop">Stop / Pause</sys:String>
+    <sys:String x:Key="MenuOpenFile">Open File</sys:String>
+    <sys:String x:Key="MenuOpenFolder">Open Containing Folder</sys:String>
+    <sys:String x:Key="MenuMinimizeToTray">Minimize to Background Tray</sys:String>
+    <sys:String x:Key="MenuRemove">Remove</sys:String>
+    <sys:String x:Key="MenuDeleteFile">Delete File from Disk</sys:String>
+    
+    <sys:String x:Key="MenuDownloads">_Downloads</sys:String>
+    <sys:String x:Key="MenuStartQueue">Start Queue (All)</sys:String>
+    <sys:String x:Key="MenuStopQueue">Pause / Stop All</sys:String>
+    <sys:String x:Key="MenuClearDone">Delete All Completed</sys:String>
+    <sys:String x:Key="MenuScheduler">Scheduler...</sys:String>
+    <sys:String x:Key="MenuSpeedLimiter">Speed Limiter Settings...</sys:String>
+    <sys:String x:Key="MenuPreferences">Options / Preferences...</sys:String>
+    
+    <sys:String x:Key="MenuView">_View</sys:String>
+    <sys:String x:Key="MenuToggleCategories">Toggle Categories Panel</sys:String>
+    <sys:String x:Key="MenuToggleDarkMode">Toggle Dark Mode</sys:String>
+    
+    <sys:String x:Key="MenuHelp">_Help</sys:String>
+    <sys:String x:Key="MenuUserGuide">User Guide &amp; Tutorials...</sys:String>
+    <sys:String x:Key="MenuVideoGrabberTutorial">Universal Video Grabber Tutorial...</sys:String>
+    <sys:String x:Key="MenuBrowserExtensionHelp">Browser Extension Integration Guide...</sys:String>
+    <sys:String x:Key="MenuKeyboardShortcuts">Keyboard Shortcuts &amp; Hotkeys...</sys:String>
+    <sys:String x:Key="MenuCheckUpdates">Check for Updates...</sys:String>
+    <sys:String x:Key="MenuAbout">About NexLoad Pro</sys:String>
+    
+    <!-- Ribbon Toolbar Buttons -->
+    <sys:String x:Key="TbAddUrl">Add URL</sys:String>
+    <sys:String x:Key="TbGrabVideo">Grab Video</sys:String>
+    <sys:String x:Key="TbYouTube">YouTube</sys:String>
+    <sys:String x:Key="TbFacebook">Facebook</sys:String>
+    <sys:String x:Key="TbTikTok">TikTok</sys:String>
+    <sys:String x:Key="TbResume">Resume</sys:String>
+    <sys:String x:Key="TbStop">Stop</sys:String>
+    <sys:String x:Key="TbStopAll">Stop All</sys:String>
+    <sys:String x:Key="TbDelete">Delete</sys:String>
+    <sys:String x:Key="TbClearDone">Clear Done</sys:String>
+    <sys:String x:Key="TbScheduler">Scheduler</sys:String>
+    <sys:String x:Key="TbStartQueue">Start Queue</sys:String>
+    <sys:String x:Key="TbStopQueue">Stop Queue</sys:String>
+    
+    <!-- Search & Filter Strip -->
+    <sys:String x:Key="LblView">View:</sys:String>
+    <sys:String x:Key="SearchPlaceholder">Search filename, URL, or platform...</sys:String>
+    <sys:String x:Key="FilterAll">All</sys:String>
+    <sys:String x:Key="FilterDownloading">Downloading</sys:String>
+    <sys:String x:Key="FilterCompleted">Completed</sys:String>
+    <sys:String x:Key="FilterVideos">Videos</sys:String>
+    <sys:String x:Key="FilterAudio">Audio</sys:String>
+    
+    <!-- Categories Sidebar -->
+    <sys:String x:Key="CatTitle">Categories</sys:String>
+    <sys:String x:Key="CatAll">All Downloads</sys:String>
+    <sys:String x:Key="CatGrabber">Social Media Grabber</sys:String>
+    <sys:String x:Key="CatCloudHosters">Cloud Hosters (Direct)</sys:String>
+    <sys:String x:Key="CatCompressed">Compressed Files</sys:String>
+    <sys:String x:Key="CatDocuments">Documents</sys:String>
+    <sys:String x:Key="CatMusic">Music &amp; Audio</sys:String>
+    <sys:String x:Key="CatPrograms">Programs</sys:String>
+    <sys:String x:Key="CatVideos">Videos</sys:String>
+    <sys:String x:Key="CatTorrents">Torrents</sys:String>
+    <sys:String x:Key="CatDownloading">Active / Downloading</sys:String>
+    <sys:String x:Key="CatCompleted">Finished Downloads</sys:String>
+    <sys:String x:Key="CatQueues">Download Queues</sys:String>
+    
+    <!-- Grid Column Headers -->
+    <sys:String x:Key="ColFileName">File Name</sys:String>
+    <sys:String x:Key="ColSize">Size</sys:String>
+    <sys:String x:Key="ColProgress">Progress</sys:String>
+    <sys:String x:Key="ColStatus">Status</sys:String>
+    <sys:String x:Key="ColTransferRate">Transfer Rate</sys:String>
+    <sys:String x:Key="ColTimeLeft">Time Left</sys:String>
+    <sys:String x:Key="ColSource">Source</sys:String>
+    <sys:String x:Key="ColAddress">Address (URL)</sys:String>
+    
+    <!-- Connection Visualizer & Status Bar -->
+    <sys:String x:Key="ConnectionBlocksTitle">Segmented Connection Progress (Multi-threaded Streams):</sys:String>
+    <sys:String x:Key="NoConnectionSelected">[No active connection selected]</sys:String>
+    <sys:String x:Key="StatusActiveDownloads">Active Downloads:</sys:String>
+    <sys:String x:Key="StatusSpeed">Speed:</sys:String>
+    <sys:String x:Key="StatusTotalTasks">Total Tasks:</sys:String>
+    <sys:String x:Key="StatusLimiter">Limiter:</sys:String>
+</ResourceDictionary>

@@ -1,0 +1,520 @@
+<Window x:Class="DOWN_MNG.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DOWN_MNG"
+        Title="{DynamicResource AppTitle}" 
+        Height="700" Width="1160"
+        MinHeight="500" MinWidth="850"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI"
+        AllowDrop="True"
+        DragEnter="Window_DragEnter"
+        Drop="Window_Drop"
+        StateChanged="MainWindow_StateChanged">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- 1. Menu Bar -->
+            <RowDefinition Height="Auto"/> <!-- 2. Native ToolBar -->
+            <RowDefinition Height="Auto"/> <!-- 3. Quick Filter & Search Bar -->
+            <RowDefinition Height="*"/>    <!-- 4. Main Split Workspace -->
+            <RowDefinition Height="Auto"/> <!-- 5. Connection Blocks Visualizer -->
+            <RowDefinition Height="Auto"/> <!-- 6. Native Status Bar -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. TOP MENU BAR -->
+        <Menu Grid.Row="0" Background="{DynamicResource BgToolbar}" Foreground="{DynamicResource TextPrimary}">
+            <MenuItem Header="{DynamicResource MenuTasks}">
+                <MenuItem Header="{DynamicResource MenuAddUrl}" InputGestureText="Ctrl+N" Click="AddUrl_Click"/>
+                <MenuItem Header="{DynamicResource MenuVideoGrabber}" InputGestureText="Ctrl+G" Click="VideoGrabber_Click"/>
+                <MenuItem Header="{DynamicResource MenuBatchGrab}" InputGestureText="Ctrl+B" Click="BatchLinkGrabber_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuBrowserExtensionSetup}" Click="BrowserExtensionSetup_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuYouTubeGrabber}" Click="YouTubeGrabber_Click"/>
+                <MenuItem Header="{DynamicResource MenuFacebookGrabber}" Click="FacebookGrabber_Click"/>
+                <MenuItem Header="{DynamicResource MenuTikTokGrabber}" Click="TikTokGrabber_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuExport}" Click="ExportDownloads_Click"/>
+                <MenuItem Header="{DynamicResource MenuImport}" Click="ImportDownloads_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuExit}" InputGestureText="Alt+F4" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource MenuFile}">
+                <MenuItem Header="{DynamicResource MenuDownloadNow}" Click="DownloadNow_Click"/>
+                <MenuItem Header="{DynamicResource MenuStop}" Click="StopDownload_Click"/>
+                <MenuItem Header="{DynamicResource MenuOpenFile}" Click="OpenFile_Click"/>
+                <MenuItem Header="{DynamicResource MenuOpenFolder}" Click="OpenFolder_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuMinimizeToTray}" Click="MinimizeToTray_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuRemove}" InputGestureText="Del" Click="Delete_Click"/>
+                <MenuItem Header="{DynamicResource MenuDeleteFile}" Click="DeleteFileFromDisk_Click"/>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource MenuDownloads}">
+                <MenuItem Header="{DynamicResource MenuStartQueue}" Click="StartAll_Click"/>
+                <MenuItem Header="{DynamicResource MenuStopQueue}" Click="PauseAll_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuClearDone}" Click="DeleteAllCompleted_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuScheduler}" Click="Scheduler_Click"/>
+                <MenuItem Header="{DynamicResource MenuSpeedLimiter}" Click="SpeedLimiter_Click"/>
+                <MenuItem Header="{DynamicResource MenuPreferences}" Click="Preferences_Click"/>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource MenuView}">
+                <MenuItem x:Name="HideCategoriesMenuItem" Header="{DynamicResource MenuToggleCategories}" Click="HideCategories_Click"/>
+                <MenuItem Header="{DynamicResource MenuToggleDarkMode}" Click="DarkModeToggle_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource LanguageToggle}" Click="LanguageToggle_Click"/>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource MenuHelp}">
+                <MenuItem Header="{DynamicResource MenuUserGuide}" Click="UserGuide_Click"/>
+                <MenuItem Header="{DynamicResource MenuVideoGrabberTutorial}" Click="VideoGrabberTutorial_Click"/>
+                <MenuItem Header="{DynamicResource MenuBrowserExtensionHelp}" Click="BrowserExtensionHelp_Click"/>
+                <MenuItem Header="{DynamicResource MenuKeyboardShortcuts}" Click="KeyboardShortcuts_Click"/>
+                <Separator/>
+                <MenuItem Header="{DynamicResource MenuCheckUpdates}" Click="CheckUpdates_Click"/>
+                <MenuItem Header="{DynamicResource MenuAbout}" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- 2. NATIVE WINDOWS TOOLBAR -->
+        <ToolBarTray Grid.Row="1" IsLocked="True" Background="{DynamicResource BgToolbar}">
+            <ToolBar Band="0" BandIndex="0" Background="{DynamicResource BgToolbar}" Foreground="{DynamicResource TextPrimary}">
+                <ToolBar.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ToolbarActionButton}"/>
+                </ToolBar.Resources>
+                <!-- Add URL -->
+                <Button Click="AddUrl_Click" ToolTip="Add standard download link or Torrent">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbAddUrl}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Video Grabber -->
+                <Button Click="VideoGrabber_Click" ToolTip="Universal Video Grabber for YouTube, Facebook, TikTok">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE714;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbGrabVideo}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Batch Link Grabber -->
+                <Button Click="BatchLinkGrabber_Click" ToolTip="Batch Link Grabber: Extract all links from pasted text, articles, or lists">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbBatchGrab}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Separator/>
+
+                <!-- Resume -->
+                <Button Click="DownloadNow_Click" ToolTip="Resume selected download">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE768;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbResume}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Stop -->
+                <Button Click="StopDownload_Click" ToolTip="Pause selected download">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE769;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbStop}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Stop All -->
+                <Button Click="PauseAll_Click" ToolTip="Stop all ongoing downloads">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE71A;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbStopAll}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Delete -->
+                <Button Click="Delete_Click" ToolTip="Delete selected download">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE74D;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbDelete}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Clear Done -->
+                <Button Click="DeleteAllCompleted_Click" ToolTip="Clear finished downloads from list">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xEDAE;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbClearDone}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Separator/>
+
+                <!-- Scheduler -->
+                <Button Click="Scheduler_Click" ToolTip="Automated download scheduling">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE787;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbScheduler}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Start Queue -->
+                <Button Click="StartAll_Click" ToolTip="Start processing queue">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbStartQueue}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Stop Queue -->
+                <Button Click="PauseAll_Click" ToolTip="Stop processing queue">
+                    <StackPanel Orientation="Horizontal" Margin="4,2">
+                        <TextBlock Text="&#xE7C4;" FontFamily="Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="{DynamicResource TbStopQueue}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- 3. SEARCH & QUICK FILTER BAR -->
+        <Border Grid.Row="2" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="0,0,0,1" Padding="8,4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Filter Label -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="4,0,12,0">
+                    <TextBlock Text="{DynamicResource LblView}" Foreground="{DynamicResource TextSecondary}" Margin="0,0,4,0"/>
+                    <TextBlock x:Name="CurrentCategoryLabel" Text="All Downloads" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}"/>
+                </StackPanel>
+
+                <!-- Search Box -->
+                <Grid Grid.Column="1" HorizontalAlignment="Left" Width="320">
+                    <TextBox x:Name="SearchTextBox" Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}" CaretBrush="{DynamicResource TextPrimary}" BorderBrush="{DynamicResource BorderLight}" Padding="6,3" VerticalContentAlignment="Center" TextChanged="SearchTextBox_TextChanged"/>
+                    <TextBlock x:Name="SearchPlaceholder" Text="{DynamicResource SearchPlaceholder}" 
+                               Foreground="{DynamicResource TextMuted}" IsHitTestVisible="False"
+                               VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </Grid>
+
+                <!-- Quick Filter Buttons -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="{DynamicResource FilterAll}" Padding="8,2" Margin="2,0" Click="QuickFilter_Click" Tag="All"/>
+                    <Button Content="{DynamicResource FilterDownloading}" Padding="8,2" Margin="2,0" Click="QuickFilter_Click" Tag="Downloading"/>
+                    <Button Content="{DynamicResource FilterCompleted}" Padding="8,2" Margin="2,0" Click="QuickFilter_Click" Tag="Completed"/>
+                    <Button Content="{DynamicResource FilterVideos}" Padding="8,2" Margin="2,0" Click="QuickFilter_Click" Tag="Video"/>
+                    <Button Content="{DynamicResource FilterAudio}" Padding="8,2" Margin="2,0" Click="QuickFilter_Click" Tag="Music"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 4. MAIN SPLIT WORKSPACE -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="CategoriesColumn" Width="220" MinWidth="150" MaxWidth="380"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT COLUMN: CATEGORIES SIDEBAR -->
+            <Border Grid.Column="0" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{DynamicResource BgHeader}" Padding="8,4" BorderBrush="{DynamicResource BorderLight}" BorderThickness="0,0,0,1">
+                        <Grid>
+                            <TextBlock Text="{DynamicResource CatTitle}" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <Button Content="×" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                    Background="Transparent" BorderThickness="0" FontWeight="Bold" 
+                                    Click="HideCategories_Click" Padding="4,0"/>
+                        </Grid>
+                    </Border>
+
+                    <TreeView x:Name="CategoriesTreeView" Grid.Row="1" BorderThickness="0" 
+                              Background="{DynamicResource BgSidebar}" Foreground="{DynamicResource TextPrimary}"
+                              SelectedItemChanged="CategoriesTreeView_SelectedItemChanged" Padding="4">
+                        
+                        <!-- 1. All Downloads -->
+                        <TreeViewItem IsExpanded="True" Tag="All">
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{DynamicResource CatAll}" FontWeight="SemiBold"/>
+                            </TreeViewItem.Header>
+
+                            <!-- Social & Video Grabber -->
+                            <TreeViewItem IsExpanded="True" Tag="VideoGrabber">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatGrabber}"/>
+                                </TreeViewItem.Header>
+                                
+                                <TreeViewItem Tag="YouTube">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="YouTube"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                
+                                <TreeViewItem Tag="Facebook">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="Facebook"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+
+                                <TreeViewItem Tag="TikTok">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="TikTok"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                            </TreeViewItem>
+
+                            <!-- Cloud & File Hosters (JDownloader style) -->
+                            <TreeViewItem IsExpanded="True" Tag="CloudHosters">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatCloudHosters}"/>
+                                </TreeViewItem.Header>
+                                <TreeViewItem Tag="Pixeldrain">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="Pixeldrain"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem Tag="Mega">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="MEGA"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem Tag="MediaFire">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="MediaFire"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                                <TreeViewItem Tag="Google Drive">
+                                    <TreeViewItem.Header>
+                                        <TextBlock Text="Google Drive"/>
+                                    </TreeViewItem.Header>
+                                </TreeViewItem>
+                            </TreeViewItem>
+
+                            <!-- Categories -->
+                            <TreeViewItem Tag="Compressed">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatCompressed}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem Tag="Document">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatDocuments}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem Tag="Music">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatMusic}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem Tag="Programs">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatPrograms}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem Tag="Video">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatVideos}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+
+                            <TreeViewItem Tag="Torrent">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{DynamicResource CatTorrents}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeViewItem>
+
+                        <!-- Active -->
+                        <TreeViewItem Tag="Downloading">
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{DynamicResource CatDownloading}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+
+                        <!-- Finished -->
+                        <TreeViewItem Tag="Completed">
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{DynamicResource CatCompleted}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+
+                        <!-- Queues -->
+                        <TreeViewItem Tag="Queues">
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{DynamicResource CatQueues}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                    </TreeView>
+                </Grid>
+            </Border>
+
+            <!-- SPLITTER -->
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="4"/>
+
+            <!-- RIGHT COLUMN: NATIVE DOWNLOAD LIST VIEW -->
+            <ListView x:Name="DownloadsListView" Grid.Column="2" BorderThickness="0" 
+                      Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}"
+                      SelectionChanged="DownloadsListView_SelectionChanged"
+                      MouseDoubleClick="DownloadsListView_MouseDoubleClick">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{DynamicResource MenuDownloadNow}" FontWeight="Bold" Click="DownloadNow_Click"/>
+                        <MenuItem Header="{DynamicResource MenuStop}" Click="StopDownload_Click"/>
+                        <Separator/>
+                        <MenuItem Header="{DynamicResource MenuOpenFile}" Click="OpenFile_Click"/>
+                        <MenuItem Header="{DynamicResource MenuOpenFolder}" Click="OpenFolder_Click"/>
+                        <MenuItem Header="Copy Download URL" Click="CopyUrl_Click"/>
+                        <Separator/>
+                        <MenuItem Header="{DynamicResource MenuRemove}" Click="Delete_Click"/>
+                        <MenuItem Header="{DynamicResource MenuDeleteFile}" Click="DeleteFileFromDisk_Click"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                
+                <ListView.View>
+                    <GridView>
+                        <!-- File Name -->
+                        <GridViewColumn Header="{DynamicResource ColFileName}" Width="280">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Filename}" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" 
+                                               TextTrimming="CharacterEllipsis" ToolTip="{Binding Filename}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Size -->
+                        <GridViewColumn Header="{DynamicResource ColSize}" DisplayMemberBinding="{Binding DisplaySize}" Width="95"/>
+
+                        <!-- Progress Bar & Percentage -->
+                        <GridViewColumn Header="{DynamicResource ColProgress}" Width="145">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,1" VerticalAlignment="Center">
+                                        <ProgressBar Value="{Binding ProgressPercentage, Mode=OneWay}" 
+                                                     Height="15" 
+                                                     Style="{DynamicResource IDMMainProgressBar}"/>
+                                        <TextBlock Text="{Binding DisplayProgress}" 
+                                                   FontSize="9.5" 
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Center" 
+                                                   VerticalAlignment="Center"
+                                                   Foreground="White">
+                                            <TextBlock.Effect>
+                                                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Direction="315" Color="#000000" Opacity="0.8"/>
+                                            </TextBlock.Effect>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Status -->
+                        <GridViewColumn Header="{DynamicResource ColStatus}" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status}" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Transfer Rate -->
+                        <GridViewColumn Header="{DynamicResource ColTransferRate}" DisplayMemberBinding="{Binding DisplaySpeed}" Width="100"/>
+
+                        <!-- Time Left -->
+                        <GridViewColumn Header="{DynamicResource ColTimeLeft}" DisplayMemberBinding="{Binding DisplayTimeLeft}" Width="90"/>
+
+                        <!-- Source / Platform -->
+                        <GridViewColumn Header="{DynamicResource ColSource}" DisplayMemberBinding="{Binding PlatformBadge}" Width="90"/>
+
+                        <!-- URL / Description -->
+                        <GridViewColumn Header="{DynamicResource ColAddress}" DisplayMemberBinding="{Binding Url}" Width="250"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <!-- 5. IDM MULTI-THREAD CONNECTION BLOCKS VISUALIZER -->
+        <Border Grid.Row="4" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="0,1,0,1" Padding="8,4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Orientation="Horizontal" Margin="2,0,0,4">
+                    <TextBlock Text="{DynamicResource ConnectionBlocksTitle}" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBlock x:Name="SelectedDownloadLabel" Text="{DynamicResource NoConnectionSelected}" Foreground="{DynamicResource AccentPrimary}" Margin="6,0,0,0"/>
+                </StackPanel>
+
+                <Border Grid.Row="1" BorderBrush="{DynamicResource BorderMedium}" BorderThickness="1" Height="16" Background="{DynamicResource BgPanel}">
+                    <ItemsControl x:Name="ChunksItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="8" Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ProgressBar Value="{Binding ProgressPercentage, Mode=OneWay}" 
+                                             Style="{DynamicResource IDMConnectionProgressBar}" 
+                                             Margin="0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 6. NATIVE STATUS BAR -->
+        <StatusBar Grid.Row="5" Background="{DynamicResource BgHeader}">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource StatusActiveDownloads}" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBlock x:Name="ActiveCountTextBlock" Text="0" FontWeight="Bold" Margin="4,0,0,0"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource StatusSpeed}" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBlock x:Name="TotalSpeedTextBlock" Text="0 B/s" FontWeight="Bold" Margin="4,0,0,0"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource StatusTotalTasks}" Foreground="{DynamicResource TextSecondary}"/>
+                    <TextBlock x:Name="TotalTasksTextBlock" Text="0" FontWeight="Bold" Margin="4,0,0,0"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <Button Background="Transparent" BorderThickness="0" Cursor="Hand" Click="SpeedLimiter_Click" ToolTip="Click to configure Speed Limiter">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource StatusLimiter}" Foreground="{DynamicResource TextSecondary}"/>
+                        <TextBlock x:Name="SpeedLimiterStatusTextBlock" Text="OFF" FontWeight="Bold" Margin="4,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button Content="{DynamicResource LanguageToggle}" Padding="6,1" Click="LanguageToggle_Click"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,136 @@
+<Window x:Class="DOWN_MNG.BatchLinkGrabberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Batch Link Grabber — Extract Links from Text" 
+        Height="580" Width="760" 
+        MinHeight="460" MinWidth="600"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- 0. Input Text GroupBox -->
+            <RowDefinition Height="*"/>    <!-- 1. Extracted Links GroupBox -->
+            <RowDefinition Height="Auto"/> <!-- 2. Save Location Row -->
+            <RowDefinition Height="Auto"/> <!-- 3. Action Buttons Footer -->
+        </Grid.RowDefinitions>
+
+        <!-- 0. Input Text GroupBox -->
+        <GroupBox Grid.Row="0" Header="Paste Text, HTML, or URL List" Margin="0,0,0,10" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="InputTextBox" Grid.Row="0"
+                         AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                         TextWrapping="Wrap" Padding="4,2"
+                         TextChanged="InputTextBox_TextChanged"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+                    <Button Content="Paste from Clipboard" Padding="12,2" Margin="0,0,6,0" Click="PasteClipboardButton_Click"/>
+                    <Button Content="Clear Text" Padding="10,2" Margin="0,0,6,0" Click="ClearButton_Click"/>
+                    <Button Content="Extract Links" FontWeight="SemiBold" Padding="14,2" Click="ExtractButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- 1. Extracted Links GroupBox -->
+        <GroupBox Grid.Row="1" x:Name="ResultsGroupBox" Header="Extracted Links (0 found)" Margin="0,0,0,10" Padding="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- Filter & Selection strip -->
+                    <RowDefinition Height="*"/>    <!-- ListView -->
+                </Grid.RowDefinitions>
+
+                <!-- Filter & Select Action Bar -->
+                <Grid Grid.Row="0" Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="Select All" Padding="8,2" Margin="0,0,4,0" Click="SelectAll_Click"/>
+                        <Button Content="Select None" Padding="8,2" Click="SelectNone_Click"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Platform Filter:" VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{DynamicResource TextSecondary}"/>
+                        <ComboBox x:Name="PlatformFilterComboBox" Width="170" SelectionChanged="PlatformFilterComboBox_SelectionChanged">
+                            <ComboBoxItem Content="All Platforms"/>
+                            <ComboBoxItem Content="Cloud Hosters (Pixeldrain/Mega)"/>
+                            <ComboBoxItem Content="YouTube"/>
+                            <ComboBoxItem Content="Facebook"/>
+                            <ComboBoxItem Content="TikTok"/>
+                            <ComboBoxItem Content="Torrents"/>
+                            <ComboBoxItem Content="Direct Links"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ListView of Extracted Links -->
+                <ListView x:Name="LinksListView" Grid.Row="1" Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1">
+                    <ListView.View>
+                        <GridView>
+                            <!-- Checkbox -->
+                            <GridViewColumn Width="35">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ItemCheckBox_Click"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Platform -->
+                            <GridViewColumn Header="Platform" Width="90" DisplayMemberBinding="{Binding Platform}"/>
+
+                            <!-- Category -->
+                            <GridViewColumn Header="Category" Width="90" DisplayMemberBinding="{Binding Category}"/>
+
+                            <!-- URL -->
+                            <GridViewColumn Header="Address (URL)" Width="470">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Url}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Url}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </GroupBox>
+
+        <!-- 2. Save Location Row -->
+        <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Save To:" VerticalAlignment="Center" Width="65"/>
+            <TextBox x:Name="SavePathTextBox" Grid.Column="1" Padding="4,2" Margin="0,0,6,0" IsReadOnly="True" VerticalContentAlignment="Center"/>
+            <Button Content="Browse..." Grid.Column="2" Padding="12,2" Click="BrowseFolder_Click"/>
+        </Grid>
+
+        <!-- 3. Action Buttons Footer -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <CheckBox x:Name="StartImmediatelyCheckBox" Content="Start downloads immediately" IsChecked="True" VerticalAlignment="Center"/>
+
+            <Button x:Name="AddButton" Content="Add Selected (0)" IsDefault="True" Grid.Column="1" Padding="14,3" Margin="0,0,8,0" FontWeight="SemiBold" IsEnabled="False" Click="AddButton_Click"/>
+            <Button Content="Cancel" IsCancel="True" Grid.Column="2" Width="75" Click="CancelButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

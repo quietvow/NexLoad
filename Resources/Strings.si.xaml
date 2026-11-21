@@ -1,0 +1,108 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    
+    <!-- Window Titles & Common -->
+    <sys:String x:Key="AppTitle">NexLoad Pro — අධිවේගී ඩවුන්ලෝඩ් මැනේජර් හා මාධ්‍ය ග්‍රැබර්</sys:String>
+    <sys:String x:Key="LanguageToggle">Switch Language (English)</sys:String>
+    
+    <!-- Top Menu -->
+    <sys:String x:Key="MenuTasks">_කාර්යයන් (Tasks)</sys:String>
+    <sys:String x:Key="MenuAddUrl">නව සබැඳියක් එක් කරන්න...</sys:String>
+    <sys:String x:Key="MenuVideoGrabber">වීඩියෝ හා මාධ්‍ය ග්‍රැබර්...</sys:String>
+    <sys:String x:Key="MenuBatchGrab">පෙළෙන් සබැඳි ලබාගැනීම (Batch Grab)...</sys:String>
+    <sys:String x:Key="TbBatchGrab">සබැඳි සමූහය</sys:String>
+    <sys:String x:Key="MenuBrowserExtensionSetup">Browser Extension පිහිටුවීම (1-Click)...</sys:String>
+    <sys:String x:Key="MenuYouTubeGrabber">YouTube වීඩියෝ බාගත කරන්න...</sys:String>
+    <sys:String x:Key="MenuFacebookGrabber">Facebook වීඩියෝ බාගත කරන්න...</sys:String>
+    <sys:String x:Key="MenuTikTokGrabber">TikTok වීඩියෝ බාගත කරන්න...</sys:String>
+    <sys:String x:Key="MenuExport">බාගත කිරීම් අපනයනය (Export)...</sys:String>
+    <sys:String x:Key="MenuImport">බාගත කිරීම් ආනයනය (Import)...</sys:String>
+    <sys:String x:Key="MenuExit">ඉවත් වන්න (Exit)</sys:String>
+    
+    <sys:String x:Key="MenuFile">_ගොනු (File)</sys:String>
+    <sys:String x:Key="MenuDownloadNow">දැන් බාගත කරන්න / නැවත අරඹන්න</sys:String>
+    <sys:String x:Key="MenuStop">නවත්වන්න (Pause)</sys:String>
+    <sys:String x:Key="MenuOpenFile">ගොනුව විවෘත කරන්න</sys:String>
+    <sys:String x:Key="MenuOpenFolder">ගොනුව ඇති ෆෝල්ඩරය විවෘත කරන්න</sys:String>
+    <sys:String x:Key="MenuMinimizeToTray">පසුබිමට සඟවන්න (Minimize to Tray)</sys:String>
+    <sys:String x:Key="MenuRemove">ලැයිස්තුවෙන් ඉවත් කරන්න</sys:String>
+    <sys:String x:Key="MenuDeleteFile">පරිගණකයෙන් ස්ථිරවම මකන්න</sys:String>
+    
+    <sys:String x:Key="MenuDownloads">_බාගත කිරීම් (Downloads)</sys:String>
+    <sys:String x:Key="MenuStartQueue">සියල්ල අරඹන්න (Start Queue)</sys:String>
+    <sys:String x:Key="MenuStopQueue">සියල්ල නවත්වන්න (Stop All)</sys:String>
+    <sys:String x:Key="MenuClearDone">අවසන් වූ සියල්ල ලැයිස්තුවෙන් ඉවත් කරන්න</sys:String>
+    <sys:String x:Key="MenuScheduler">ස්වයංක්‍රීය කාලසටහන (Scheduler)...</sys:String>
+    <sys:String x:Key="MenuSpeedLimiter">වේග සීමා සැකසුම් (Speed Limiter)...</sys:String>
+    <sys:String x:Key="MenuPreferences">විකල්ප හා මනාප (Preferences)...</sys:String>
+    
+    <sys:String x:Key="MenuView">_දසුන (View)</sys:String>
+    <sys:String x:Key="MenuToggleCategories">ප්‍රවර්ග පුවරුව පෙන්වන්න/සඟවන්න</sys:String>
+    <sys:String x:Key="MenuToggleDarkMode">Dark Mode මාරු කරන්න</sys:String>
+    
+    <sys:String x:Key="MenuHelp">_උදව් (Help)</sys:String>
+    <sys:String x:Key="MenuUserGuide">පරිශීලක මාර්ගෝපදේශය (User Guide)...</sys:String>
+    <sys:String x:Key="MenuVideoGrabberTutorial">වීඩියෝ ග්‍රැබර් නිබන්ධනය (Tutorial)...</sys:String>
+    <sys:String x:Key="MenuBrowserExtensionHelp">Browser Extension සම්බන්ධ කිරීම...</sys:String>
+    <sys:String x:Key="MenuKeyboardShortcuts">කෙටිමං යතුරු (Keyboard Shortcuts)...</sys:String>
+    <sys:String x:Key="MenuCheckUpdates">යාවත්කාලීන පරීක්ෂාව (Check Updates)...</sys:String>
+    <sys:String x:Key="MenuAbout">NexLoad Pro පිළිබඳව</sys:String>
+    
+    <!-- Ribbon Toolbar Buttons -->
+    <sys:String x:Key="TbAddUrl">නව URL</sys:String>
+    <sys:String x:Key="TbGrabVideo">වීඩියෝ Grab</sys:String>
+    <sys:String x:Key="TbYouTube">YouTube</sys:String>
+    <sys:String x:Key="TbFacebook">Facebook</sys:String>
+    <sys:String x:Key="TbTikTok">TikTok</sys:String>
+    <sys:String x:Key="TbResume">අරඹන්න</sys:String>
+    <sys:String x:Key="TbStop">නවත්වන්න</sys:String>
+    <sys:String x:Key="TbStopAll">සියල්ල නවත්වන්න</sys:String>
+    <sys:String x:Key="TbDelete">මකන්න</sys:String>
+    <sys:String x:Key="TbClearDone">නිමවූ ඉවත්</sys:String>
+    <sys:String x:Key="TbScheduler">කාලසටහන</sys:String>
+    <sys:String x:Key="TbStartQueue">පෝලිම අරඹන්න</sys:String>
+    <sys:String x:Key="TbStopQueue">පෝලිම නවත්වන්න</sys:String>
+    
+    <!-- Search & Filter Strip -->
+    <sys:String x:Key="LblView">දසුන:</sys:String>
+    <sys:String x:Key="SearchPlaceholder">ගොනු නම, URL හෝ වීඩියෝ සබැඳිය සොයන්න...</sys:String>
+    <sys:String x:Key="FilterAll">සියල්ල</sys:String>
+    <sys:String x:Key="FilterDownloading">බාගත වන</sys:String>
+    <sys:String x:Key="FilterCompleted">නිමවූ</sys:String>
+    <sys:String x:Key="FilterVideos">වීඩියෝ</sys:String>
+    <sys:String x:Key="FilterAudio">ශ්‍රව්‍ය (Audio)</sys:String>
+    
+    <!-- Categories Sidebar -->
+    <sys:String x:Key="CatTitle">ප්‍රවර්ග</sys:String>
+    <sys:String x:Key="CatAll">සියලුම බාගත කිරීම්</sys:String>
+    <sys:String x:Key="CatGrabber">සමාජ මාධ්‍ය වීඩියෝ</sys:String>
+    <sys:String x:Key="CatCloudHosters">වලාකුළු සත්කාරක (Cloud Hosters)</sys:String>
+    <sys:String x:Key="CatCompressed">සම්පීඩිත ගොනු (Zip/Rar)</sys:String>
+    <sys:String x:Key="CatDocuments">ලේඛන (Documents)</sys:String>
+    <sys:String x:Key="CatMusic">සංගීතය සහ ශ්‍රව්‍ය</sys:String>
+    <sys:String x:Key="CatPrograms">මෘදුකාංග (Programs)</sys:String>
+    <sys:String x:Key="CatVideos">වීඩියෝ (Videos)</sys:String>
+    <sys:String x:Key="CatTorrents">ටොරන්ට් (Torrents)</sys:String>
+    <sys:String x:Key="CatDownloading">බාගත වෙමින් පවතින</sys:String>
+    <sys:String x:Key="CatCompleted">බාගත කර අවසන් වූ</sys:String>
+    <sys:String x:Key="CatQueues">බාගත කිරීම් පෝලිම්</sys:String>
+    
+    <!-- Grid Column Headers -->
+    <sys:String x:Key="ColFileName">ගොනු නාමය</sys:String>
+    <sys:String x:Key="ColSize">ප්‍රමාණය</sys:String>
+    <sys:String x:Key="ColProgress">ප්‍රගතිය</sys:String>
+    <sys:String x:Key="ColStatus">තත්ත්වය</sys:String>
+    <sys:String x:Key="ColTransferRate">බාගත වීමේ වේගය</sys:String>
+    <sys:String x:Key="ColTimeLeft">ඉතිරි කාලය</sys:String>
+    <sys:String x:Key="ColSource">මූලාශ්‍රය</sys:String>
+    <sys:String x:Key="ColAddress">ලිපිනය (URL)</sys:String>
+    
+    <!-- Connection Visualizer & Status Bar -->
+    <sys:String x:Key="ConnectionBlocksTitle">බහු-සම්බන්ධතා ධාරා ප්‍රගතිය (Multi-threaded Streams):</sys:String>
+    <sys:String x:Key="NoConnectionSelected">[සම්බන්ධතාවයක් තෝරාගෙන නොමැත]</sys:String>
+    <sys:String x:Key="StatusActiveDownloads">ක්‍රියාකාරී බාගත කිරීම්:</sys:String>
+    <sys:String x:Key="StatusSpeed">වේගය:</sys:String>
+    <sys:String x:Key="StatusTotalTasks">මුළු කාර්යයන්:</sys:String>
+    <sys:String x:Key="StatusLimiter">වේග සීමාව:</sys:String>
+</ResourceDictionary>

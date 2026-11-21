@@ -1,0 +1,84 @@
+<Window x:Class="DOWN_MNG.TorrentFileSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select Torrent Files" 
+        Height="420" Width="580" 
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI"
+        ResizeMode="CanResizeWithGrip">
+    
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Title -->
+            <RowDefinition Height="*"/>    <!-- Files List -->
+            <RowDefinition Height="Auto"/> <!-- Selection Info -->
+            <RowDefinition Height="Auto"/> <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Header Title -->
+        <TextBlock Text="Select files to download from torrent:" 
+                   FontWeight="Bold" Margin="0,0,0,8" Grid.Row="0"/>
+
+        <!-- Files List Border -->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}">
+            <ListView x:Name="FilesListView" BorderThickness="0" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.View>
+                    <GridView>
+                        <!-- Checkbox column -->
+                        <GridViewColumn Width="35">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckBox_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <!-- File path/name column -->
+                        <GridViewColumn Header="File Name" Width="380">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <!-- File size column -->
+                        <GridViewColumn Header="Size" Width="110">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplaySize}" VerticalAlignment="Center" TextAlignment="Right"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- Selection Info Row -->
+        <Grid Grid.Row="2" Margin="0,8,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="Select All" Padding="8,2" Margin="0,0,6,0" Click="SelectAll_Click"/>
+                <Button Content="Select None" Padding="8,2" Click="SelectNone_Click"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Selected size: " Foreground="{DynamicResource TextSecondary}"/>
+                <TextBlock x:Name="SelectedSizeTextBlock" Text="0 B" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Buttons Row -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Download" IsDefault="True" Width="85" Margin="0,0,8,0" Click="Download_Click"/>
+            <Button Content="Cancel" IsCancel="True" Width="75" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

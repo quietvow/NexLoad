@@ -1,0 +1,62 @@
+<Window x:Class="DOWN_MNG.SpeedLimiterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Speed Limiter Settings" 
+        Height="260" Width="420" 
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>    <!-- Settings Body -->
+            <RowDefinition Height="Auto"/> <!-- Action Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Native GroupBox -->
+        <GroupBox Grid.Row="0" Header="Speed Limiter Configuration" Margin="0,0,0,12" Padding="10">
+            <StackPanel VerticalAlignment="Center">
+                <CheckBox x:Name="EnableLimiterCheckBox" 
+                          Content="Turn Speed Limiter On" 
+                          FontWeight="Bold" 
+                          Margin="0,0,0,12"
+                          Checked="EnableLimiterCheckBox_Checked"
+                          Unchecked="EnableLimiterCheckBox_Unchecked"/>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Maximum Speed:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="SpeedTextBox" Grid.Column="1" 
+                             Padding="4,2" FontWeight="Bold"
+                             VerticalContentAlignment="Center" Margin="0,0,6,0"/>
+                    <ComboBox x:Name="UnitComboBox" Grid.Column="2" SelectedIndex="0" VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="KB/s"/>
+                        <ComboBoxItem Content="MB/s"/>
+                    </ComboBox>
+                </Grid>
+
+                <!-- Quick Presets -->
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Text="Presets: " VerticalAlignment="Center" Margin="0,0,6,0" Foreground="{DynamicResource TextSecondary}"/>
+                    <Button Content="512 KB/s" Padding="6,2" Margin="2,0" Click="Preset_Click" Tag="512"/>
+                    <Button Content="1 MB/s" Padding="6,2" Margin="2,0" Click="Preset_Click" Tag="1024"/>
+                    <Button Content="2 MB/s" Padding="6,2" Margin="2,0" Click="Preset_Click" Tag="2048"/>
+                    <Button Content="5 MB/s" Padding="6,2" Margin="2,0" Click="Preset_Click" Tag="5120"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" IsDefault="True" Width="75" Margin="0,0,8,0" Click="SaveButton_Click"/>
+            <Button Content="Cancel" IsCancel="True" Width="75" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
