@@ -12,6 +12,8 @@
 ## Build Results
 [Dd]ebug/
 [Rr]elease/
+publish/
+releases/
 x64/
 x86/
 build/
