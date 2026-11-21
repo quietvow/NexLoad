@@ -45,8 +45,10 @@ Welcome to the initial official release of **NexLoad Pro** (v1.0.0) — the high
 
 ---
 
-### 📦 Assets Included
-* `NexLoad-v1.0.0-windows-x64.zip` — Ready-to-run portable distribution package for Windows (64-bit).
+### 📦 Assets Available for Download
+* **`NexLoad-v1.0.0-Setup.exe`** (3.10 MB) — Full interactive Windows Setup Wizard (Desktop icon, Start Menu shortcut, background auto-startup option, uninstaller).
+* **`NexLoad-v1.0.0-Setup.msi`** (1.17 MB) — Native Windows Installer (`.msi`) package for standard/enterprise Windows installation.
+* **`NexLoad-v1.0.0-windows-x64.zip`** (1.26 MB) — Portable standalone distribution package (extract and run `NexLoad.exe` anywhere, no installation required).
 
 ---
 
