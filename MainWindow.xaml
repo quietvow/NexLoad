@@ -72,6 +72,8 @@
                 <MenuItem x:Name="HideCategoriesMenuItem" Header="{DynamicResource MenuToggleCategories}" Click="HideCategories_Click"/>
                 <MenuItem Header="{DynamicResource MenuToggleDarkMode}" Click="DarkModeToggle_Click"/>
                 <Separator/>
+                <MenuItem x:Name="FloatingWidgetMenuItem" Header="Desktop Mini Floating Widget" IsCheckable="True" Click="ToggleFloatingWidget_Click"/>
+                <Separator/>
                 <MenuItem Header="{DynamicResource LanguageToggle}" Click="LanguageToggle_Click"/>
             </MenuItem>
             <MenuItem Header="{DynamicResource MenuHelp}">
@@ -386,6 +388,9 @@
                         <MenuItem Header="{DynamicResource MenuOpenFile}" Click="OpenFile_Click"/>
                         <MenuItem Header="{DynamicResource MenuOpenFolder}" Click="OpenFolder_Click"/>
                         <MenuItem Header="Copy Download URL" Click="CopyUrl_Click"/>
+                        <Separator/>
+                        <MenuItem Header="Stream / Preview Video (Sequential)..." Click="StreamTorrentVideo_Click"/>
+                        <MenuItem Header="Verify Checksum (MD5 / SHA-256)..." Click="VerifyChecksum_Click"/>
                         <Separator/>
                         <MenuItem Header="{DynamicResource MenuRemove}" Click="Delete_Click"/>
                         <MenuItem Header="{DynamicResource MenuDeleteFile}" Click="DeleteFileFromDisk_Click"/>

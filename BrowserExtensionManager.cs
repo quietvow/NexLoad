@@ -84,6 +84,82 @@ namespace DOWN_MNG
             });
         }
 
+        public static string? FindFirefoxPath()
+        {
+            return FindBrowserExe("firefox.exe", new[]
+            {
+                @"C:\Program Files\Mozilla Firefox\firefox.exe",
+                @"C:\Program Files (x86)\Mozilla Firefox\firefox.exe",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Mozilla Firefox\firefox.exe")
+            });
+        }
+
+        public static string FirefoxExtensionDirectory => Path.Combine(ExtensionDirectory, "firefox");
+
+        public static void OpenFirefoxSetup()
+        {
+            EnsureExtensionFiles();
+
+            try
+            {
+                if (!Directory.Exists(FirefoxExtensionDirectory))
+                {
+                    Directory.CreateDirectory(FirefoxExtensionDirectory);
+                }
+
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string sourceFirefoxDir = Path.Combine(baseDir, "BrowserExtension", "firefox");
+                if (Directory.Exists(sourceFirefoxDir))
+                {
+                    foreach (var f in Directory.GetFiles(sourceFirefoxDir))
+                    {
+                        File.Copy(f, Path.Combine(FirefoxExtensionDirectory, Path.GetFileName(f)), true);
+                    }
+                }
+            }
+            catch { }
+
+            try
+            {
+                Clipboard.SetText(FirefoxExtensionDirectory);
+            }
+            catch { }
+
+            try
+            {
+                string? ffPath = FindFirefoxPath();
+                if (!string.IsNullOrEmpty(ffPath) && File.Exists(ffPath))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = ffPath,
+                        Arguments = "about:debugging#/runtime/this-firefox",
+                        UseShellExecute = true
+                    });
+                }
+                else
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "about:debugging#/runtime/this-firefox",
+                        UseShellExecute = true
+                    });
+                }
+            }
+            catch { }
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = $"\"{FirefoxExtensionDirectory}\"",
+                    UseShellExecute = true
+                });
+            }
+            catch { }
+        }
+
         private static string? FindBrowserExe(string exeName, string[] standardPaths)
         {
             foreach (var path in standardPaths)

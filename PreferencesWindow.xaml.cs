@@ -27,6 +27,29 @@ namespace DOWN_MNG
             // Start with windows registry check
             StartWithWindowsCheckBox.IsChecked = CheckRunOnStartup();
 
+            // Queue & Smart Automation
+            switch (_settings.MaxConcurrentDownloads)
+            {
+                case 1: MaxConcurrentComboBox.SelectedIndex = 0; break;
+                case 2: MaxConcurrentComboBox.SelectedIndex = 1; break;
+                case 3: MaxConcurrentComboBox.SelectedIndex = 2; break;
+                case 5: MaxConcurrentComboBox.SelectedIndex = 3; break;
+                default: MaxConcurrentComboBox.SelectedIndex = _settings.MaxConcurrentDownloads <= 0 ? 4 : 2; break;
+            }
+
+            AutoSortCategoriesCheckBox.IsChecked = _settings.AutoSortCategories;
+            AutoExtractArchivesCheckBox.IsChecked = _settings.AutoExtractArchives;
+            ShowFloatingWidgetCheckBox.IsChecked = _settings.ShowFloatingWidget;
+
+            switch (_settings.CompletionPowerAction?.ToLowerInvariant())
+            {
+                case "shutdown" or "shutdownpc": CompletionPowerActionComboBox.SelectedIndex = 1; break;
+                case "sleep" or "sleeppc": CompletionPowerActionComboBox.SelectedIndex = 2; break;
+                case "hibernate" or "hibernatepc": CompletionPowerActionComboBox.SelectedIndex = 3; break;
+                case "lock" or "lockpc": CompletionPowerActionComboBox.SelectedIndex = 4; break;
+                default: CompletionPowerActionComboBox.SelectedIndex = 0; break;
+            }
+
             // Connections
             switch (_settings.DefaultConnections)
             {
@@ -78,6 +101,19 @@ namespace DOWN_MNG
             _settings.MinimizeToTray = MinimizeToTrayCheckBox.IsChecked == true;
             _settings.CloseToTray = CloseToTrayCheckBox.IsChecked == true;
 
+            // Queue Concurrency
+            int[] maxMap = { 1, 2, 3, 5, -1 };
+            int selMax = MaxConcurrentComboBox.SelectedIndex;
+            _settings.MaxConcurrentDownloads = (selMax >= 0 && selMax < maxMap.Length) ? maxMap[selMax] : 3;
+
+            _settings.AutoSortCategories = AutoSortCategoriesCheckBox.IsChecked == true;
+            _settings.AutoExtractArchives = AutoExtractArchivesCheckBox.IsChecked == true;
+            _settings.ShowFloatingWidget = ShowFloatingWidgetCheckBox.IsChecked == true;
+
+            string[] powerActions = { "None", "Shutdown", "Sleep", "Hibernate", "Lock" };
+            int selPower = CompletionPowerActionComboBox.SelectedIndex;
+            _settings.CompletionPowerAction = (selPower >= 0 && selPower < powerActions.Length) ? powerActions[selPower] : "None";
+
             // Connections
             int[] connMap = { 1, 2, 4, 8, 16, 32 };
             int selConn = ConnectionsComboBox.SelectedIndex;
@@ -120,17 +156,20 @@ namespace DOWN_MNG
             Close();
         }
 
+        private void SetupExtension_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new BrowserExtensionSetupWindow { Owner = this };
+            win.ShowDialog();
+        }
+
         private bool CheckRunOnStartup()
         {
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false);
-                return key?.GetValue("NexLoad") != null || key?.GetValue("DOWN-MNG") != null;
+                return key?.GetValue("NexLoad") != null;
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
         }
 
         private void SetRunOnStartup(bool enable)
@@ -142,7 +181,7 @@ namespace DOWN_MNG
 
                 if (enable)
                 {
-                    string exePath = Environment.ProcessPath ?? "";
+                    string? exePath = Environment.ProcessPath;
                     if (!string.IsNullOrEmpty(exePath))
                     {
                         key.SetValue("NexLoad", $"\"{exePath}\" --background");
@@ -151,16 +190,9 @@ namespace DOWN_MNG
                 else
                 {
                     key.DeleteValue("NexLoad", false);
-                    key.DeleteValue("DOWN-MNG", false);
                 }
             }
             catch { }
-        }
-
-        private void SetupExtension_Click(object sender, RoutedEventArgs e)
-        {
-            var win = new BrowserExtensionSetupWindow { Owner = this };
-            win.ShowDialog();
         }
     }
 }

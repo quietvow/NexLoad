@@ -14,6 +14,7 @@ namespace DOWN_MNG
         private readonly DownloadItem _item;
         private CancellationTokenSource? _cts;
         private TorrentEngine? _torrentEngine;
+        public TorrentEngine? TorrentEngineInstance => _torrentEngine;
         private VideoDownloaderEngine? _videoEngine;
         private MegaDownloadEngine? _megaEngine;
         private readonly int _connectionLimit = 8;

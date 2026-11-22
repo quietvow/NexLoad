@@ -21,6 +21,11 @@ namespace DOWN_MNG
         public bool OpenFileOnCompletion { get; set; } = false;
         public bool OpenFolderOnCompletion { get; set; } = false;
         public bool ShutdownOnCompletion { get; set; } = false;
+        public int MaxConcurrentDownloads { get; set; } = 3; // 1, 2, 3, 5, or -1 for unlimited
+        public bool AutoSortCategories { get; set; } = true; // Auto-route to Compressed, Programs, Video, Music, Documents
+        public bool AutoExtractArchives { get; set; } = false; // Auto-extract .zip/.rar/.7z on finish
+        public bool ShowFloatingWidget { get; set; } = false; // Desktop mini drop target
+        public string CompletionPowerAction { get; set; } = "None"; // None, Shutdown, Sleep, Hibernate, Lock
         public string Theme { get; set; } = "Light"; // Light, Dark
         public string Language { get; set; } = "en"; // en, si
 

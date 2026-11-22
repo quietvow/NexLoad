@@ -26,6 +26,7 @@ namespace DOWN_MNG
         private SchedulerSettings _schedulerSettings = new SchedulerSettings();
         private string _schedulerSettingsPath = "";
         private TrayIconManager? _trayIconManager;
+        private FloatingDropTargetWindow? _floatingWidget;
         private DispatcherTimer? _clipboardTimer;
         private string _lastClipboardText = "";
         private bool _isExplicitExit = false;
@@ -72,6 +73,7 @@ namespace DOWN_MNG
             Loaded += (s, e) =>
             {
                 InitializeTrayIcon();
+                InitializeFloatingWidget();
                 _trayIconManager?.Show("NexLoad Pro — Active");
 
                 if (App.StartInBackground)
@@ -186,6 +188,10 @@ namespace DOWN_MNG
                 var itemPrefs = new MenuItem { Header = "Preferences..." };
                 itemPrefs.Click += (s, e) => { RestoreFromTray(); Preferences_Click(s, e); };
                 contextMenu.Items.Add(itemPrefs);
+
+                var itemWidget = new MenuItem { Header = "Desktop Mini Floating Widget", IsCheckable = true, IsChecked = App.Settings.ShowFloatingWidget };
+                itemWidget.Click += (s, e) => ToggleFloatingWidget_Click(s, e);
+                contextMenu.Items.Add(itemWidget);
 
                 contextMenu.Items.Add(new Separator());
 
@@ -420,6 +426,18 @@ namespace DOWN_MNG
         {
             if (item.Status == "Completed") return;
 
+            int max = App.Settings.MaxConcurrentDownloads;
+            if (max <= 0) max = 999;
+            int activeCount = _downloads.Count(d => d.Status == "Downloading" && d.Id != item.Id);
+
+            if (!showProgressWindow && activeCount >= max)
+            {
+                item.Status = "Queued";
+                SaveDownloadsDatabase();
+                ApplyFilter();
+                return;
+            }
+
             if (!_activeEngines.TryGetValue(item.Id, out var engine))
             {
                 engine = new DownloadEngine(item, App.Settings.DefaultConnections);
@@ -465,6 +483,19 @@ namespace DOWN_MNG
                                 catch { }
                             }
 
+                            // Auto-extract archives if enabled
+                            if (App.Settings.AutoExtractArchives && ArchiveExtractor.IsArchive(completedItem.SavedPath))
+                            {
+                                Task.Run(async () =>
+                                {
+                                    bool ok = await ArchiveExtractor.ExtractArchiveAsync(completedItem.SavedPath);
+                                    if (ok)
+                                    {
+                                        _trayIconManager?.ShowBalloon("Archive Extracted", $"Successfully extracted {completedItem.Filename}");
+                                    }
+                                });
+                            }
+
                             // Show Balloon Notification if minimized/hidden
                             if (WindowState == WindowState.Minimized || !IsVisible)
                             {
@@ -478,20 +509,19 @@ namespace DOWN_MNG
                                 completeWin.Show();
                             }
 
-                            // Automated Scheduler completion actions
-                            if (_schedulerSettings.Enabled && _schedulerSettings.CompletionAction != "None")
+                            // Process next item in queue
+                            ProcessQueue();
+
+                            // Automated Scheduler & Queue completion power actions
+                            bool anyDownloading = _downloads.Any(d => d.Status == "Downloading" || d.Status == "Queued");
+                            if (!anyDownloading && _activeEngines.Count == 0)
                             {
-                                bool anyDownloading = _downloads.Any(d => d.Status == "Downloading");
-                                if (!anyDownloading && _activeEngines.Count == 0)
+                                if (App.Settings.ShutdownOnCompletion || (_schedulerSettings.Enabled && _schedulerSettings.CompletionAction != "None"))
                                 {
-                                    if (_schedulerSettings.CompletionAction == "CloseApp")
-                                    {
-                                        Application.Current.Shutdown();
-                                    }
-                                    else if (_schedulerSettings.CompletionAction == "ShutdownPC")
-                                    {
-                                        Process.Start("shutdown", "/s /t 30");
-                                    }
+                                    string action = _schedulerSettings.Enabled && _schedulerSettings.CompletionAction != "None"
+                                        ? _schedulerSettings.CompletionAction
+                                        : (string.IsNullOrEmpty(App.Settings.CompletionPowerAction) || App.Settings.CompletionPowerAction == "None" ? "Shutdown" : App.Settings.CompletionPowerAction);
+                                    SystemPowerActions.ExecutePowerAction(action);
                                 }
                             }
                         });
@@ -514,6 +544,9 @@ namespace DOWN_MNG
                             {
                                 _trayIconManager?.ShowBalloon("Download Failed", $"{failedItem.Filename}: {errorMsg}");
                             }
+
+                            // Process next item in queue
+                            ProcessQueue();
                         });
                     }
                     catch { }
@@ -544,18 +577,57 @@ namespace DOWN_MNG
             }
         }
 
-        private void StartAll_Click(object sender, RoutedEventArgs e)
+        public void ProcessQueue()
+        {
+            try
+            {
+                int max = App.Settings.MaxConcurrentDownloads;
+                if (max <= 0) max = 999;
+
+                int activeCount = _downloads.Count(d => d.Status == "Downloading");
+                if (activeCount >= max) return;
+
+                int slots = max - activeCount;
+                var nextItems = _downloads.Where(d => d.Status == "Queued").Take(slots).ToList();
+                foreach (var item in nextItems)
+                {
+                    StartDownload(item, false);
+                }
+            }
+            catch { }
+        }
+
+        public void AddDownloadItemDirect(DownloadItem item, bool startImmediately = true)
+        {
+            _downloads.Add(item);
+            SaveDownloadsDatabase();
+            ApplyFilter();
+
+            if (startImmediately)
+            {
+                StartDownload(item, true);
+            }
+            else
+            {
+                ProcessQueue();
+            }
+        }
+
+        public void StartAll_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in _downloads.ToList())
             {
                 if (item.Status != "Completed")
                 {
-                    StartDownload(item, false);
+                    item.Status = "Queued";
                 }
             }
+            SaveDownloadsDatabase();
+            ApplyFilter();
+            ProcessQueue();
         }
 
-        private void PauseAll_Click(object sender, RoutedEventArgs e)
+        public void PauseAll_Click(object sender, RoutedEventArgs e)
         {
             foreach (var engine in _activeEngines.Values.ToList())
             {
@@ -816,6 +888,98 @@ namespace DOWN_MNG
             ActiveCountTextBlock.Text = active.ToString();
             TotalSpeedTextBlock.Text = $"{DownloadItem.FormatBytes((long)totalSpeed)}/s";
             TotalTasksTextBlock.Text = _downloads.Count.ToString();
+
+            if (_floatingWidget != null && _floatingWidget.IsVisible)
+            {
+                long totalBytes = _downloads.Where(d => d.TotalSizeBytes > 0).Sum(d => d.TotalSizeBytes);
+                long downloadedBytes = _downloads.Where(d => d.TotalSizeBytes > 0).Sum(d => d.BytesDownloaded);
+                double overallProgress = totalBytes > 0 ? (double)downloadedBytes / totalBytes * 100.0 : 0;
+                _floatingWidget.UpdateStatus(totalSpeed, active, overallProgress);
+            }
+        }
+
+        private void InitializeFloatingWidget()
+        {
+            try
+            {
+                if (_floatingWidget == null)
+                {
+                    _floatingWidget = new FloatingDropTargetWindow(this);
+                }
+
+                if (App.Settings.ShowFloatingWidget)
+                {
+                    _floatingWidget.Show();
+                    FloatingWidgetMenuItem.IsChecked = true;
+                }
+                else
+                {
+                    _floatingWidget.Hide();
+                    FloatingWidgetMenuItem.IsChecked = false;
+                }
+            }
+            catch { }
+        }
+
+        public void ToggleFloatingWidget_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.ShowFloatingWidget = !App.Settings.ShowFloatingWidget;
+            App.Settings.Save();
+            InitializeFloatingWidget();
+        }
+
+        private async void StreamTorrentVideo_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = DownloadsListView.SelectedItem as DownloadItem;
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a torrent or video download first.", "Stream Video", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (selected.Protocol == "Torrent" && _activeEngines.TryGetValue(selected.Id, out var engine) && engine.TorrentEngineInstance != null)
+            {
+                var stream = await engine.TorrentEngineInstance.EnableSequentialStreamAsync();
+                MessageBox.Show($"Sequential streaming enabled for '{selected.Filename}'.\n\nYou can now open the downloading file directly in VLC Media Player to stream while downloading!", "Sequential Stream Active", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                string vlc = @"C:\Program Files\VideoLAN\VLC\vlc.exe";
+                if (File.Exists(vlc) && File.Exists(selected.SavedPath))
+                {
+                    Process.Start(vlc, $"\"{selected.SavedPath}\"");
+                }
+                else if (File.Exists(selected.SavedPath))
+                {
+                    Process.Start(new ProcessStartInfo(selected.SavedPath) { UseShellExecute = true });
+                }
+            }
+            else if (File.Exists(selected.SavedPath))
+            {
+                Process.Start(new ProcessStartInfo(selected.SavedPath) { UseShellExecute = true });
+            }
+            else
+            {
+                MessageBox.Show("The download has not started or file does not exist yet.", "Notice", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void VerifyChecksum_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = DownloadsListView.SelectedItem as DownloadItem;
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a download item from the list first.", "Verify Checksum", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (File.Exists(selected.SavedPath))
+            {
+                var completeWin = new DownloadCompleteWindow(selected) { Owner = this };
+                completeWin.Show();
+            }
+            else
+            {
+                MessageBox.Show($"File '{selected.Filename}' has not finished downloading or does not exist at:\n{selected.SavedPath}", "File Not Ready", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void UpdateSpeedLimiterStatus()
@@ -1358,6 +1522,7 @@ namespace DOWN_MNG
             catch { }
 
             _trayIconManager?.Dispose();
+            try { _floatingWidget?.Close(); } catch { }
             PauseAll_Click(this, new RoutedEventArgs());
             base.OnClosing(e);
         }

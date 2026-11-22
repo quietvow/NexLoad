@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Download Complete" 
         Icon="Resources/app.ico"
-        Height="275" Width="540" 
+        Width="560" 
+        SizeToContent="Height"
+        MinHeight="285"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
         Background="{DynamicResource BgWindow}"
         Foreground="{DynamicResource TextPrimary}"
         FontFamily="Segoe UI">
@@ -13,9 +15,10 @@
     <Grid Margin="16,14,16,14">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/> <!-- 1. Header with Icon and File Name -->
-            <RowDefinition Height="*"/>    <!-- 2. Details Box -->
-            <RowDefinition Height="Auto"/> <!-- 3. Options Checkbox -->
-            <RowDefinition Height="Auto"/> <!-- 4. Action Buttons -->
+            <RowDefinition Height="Auto"/> <!-- 2. Details Box -->
+            <RowDefinition Height="Auto"/> <!-- 3. Checksum & Hash Expander -->
+            <RowDefinition Height="Auto"/> <!-- 4. Options Checkbox -->
+            <RowDefinition Height="Auto"/> <!-- 5. Action Buttons -->
         </Grid.RowDefinitions>
 
         <!-- 1. Header with Icon and File Name -->
@@ -61,11 +64,52 @@
             </Grid>
         </Border>
 
-        <!-- 3. Options Checkbox -->
-        <CheckBox x:Name="DontShowAgainCheckBox" Grid.Row="2" Content="Don't show this dialog again (Auto-close on completion)" Margin="0,0,0,12" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}"/>
+        <!-- 3. Checksum & Hash Verification Expander -->
+        <Expander Grid.Row="2" Header="🔍 File Integrity &amp; Checksums (MD5 / SHA-256)" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}" Expanded="HashExpander_Expanded">
+            <Border Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Padding="10,8" Margin="0,4,0,0">
+                <StackPanel>
+                    <!-- SHA-256 Row -->
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="SHA-256:" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                        <TextBox x:Name="Sha256TextBox" Grid.Column="1" IsReadOnly="True" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource TextPrimary}" Text="Click to calculate..." VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <Button x:Name="CopySha256Btn" Grid.Column="2" Content="Copy" Padding="6,1" FontSize="11" Click="CopySha256_Click"/>
+                    </Grid>
 
-        <!-- 4. Action Buttons -->
-        <Grid Grid.Row="3">
+                    <!-- MD5 Row -->
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="MD5:" FontWeight="SemiBold" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                        <TextBox x:Name="Md5TextBox" Grid.Column="1" IsReadOnly="True" Background="Transparent" BorderThickness="0" Foreground="{DynamicResource TextPrimary}" Text="Click to calculate..." VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <Button x:Name="CopyMd5Btn" Grid.Column="2" Content="Copy" Padding="6,1" FontSize="11" Click="CopyMd5_Click"/>
+                    </Grid>
+
+                    <!-- Compare with expected -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="CompareHashTextBox" Grid.Column="0" Margin="0,0,8,0" Padding="6,3" TextChanged="CompareHash_TextChanged" ToolTip="Paste checksum from website to verify file integrity"/>
+                        <TextBlock x:Name="HashMatchBadge" Grid.Column="1" Text="Paste hash to verify" Foreground="{DynamicResource TextMuted}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Expander>
+
+        <!-- 4. Options Checkbox -->
+        <CheckBox x:Name="DontShowAgainCheckBox" Grid.Row="3" Content="Don't show this dialog again (Auto-close on completion)" Margin="0,0,0,12" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}"/>
+
+        <!-- 5. Action Buttons -->
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>

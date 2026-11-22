@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Options &amp; Preferences" 
         Icon="Resources/app.ico"
-        Height="440" Width="560" 
+        Height="480" Width="580" 
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{DynamicResource BgWindow}"
@@ -46,7 +46,54 @@
                 </StackPanel>
             </TabItem>
 
-            <!-- 2. CONNECTION TAB -->
+            <!-- 2. QUEUES & AUTOMATION TAB -->
+            <TabItem Header="Queues &amp; Automation">
+                <StackPanel Margin="10">
+                    <GroupBox Header="Queue Concurrency" Margin="0,0,0,10" Padding="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Maximum concurrent downloads:" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="MaxConcurrentComboBox" Grid.Column="1">
+                                <ComboBoxItem Content="1 Active Download"/>
+                                <ComboBoxItem Content="2 Active Downloads"/>
+                                <ComboBoxItem Content="3 Active Downloads"/>
+                                <ComboBoxItem Content="5 Active Downloads"/>
+                                <ComboBoxItem Content="Unlimited Simultaneous"/>
+                            </ComboBox>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Smart File Organization" Margin="0,0,0,10" Padding="8">
+                        <StackPanel>
+                            <CheckBox x:Name="AutoSortCategoriesCheckBox" Content="Automatically organize downloads into category folders (Compressed, Video, etc.)" Margin="0,2,0,6"/>
+                            <CheckBox x:Name="AutoExtractArchivesCheckBox" Content="Automatically extract .zip / .rar / .7z archives upon completion" Margin="0,2,0,6"/>
+                            <CheckBox x:Name="ShowFloatingWidgetCheckBox" Content="Show Desktop Mini Floating Drop Target widget" Margin="0,2,0,6"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Action When All Downloads Finish" Padding="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Computer Power Action:" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="CompletionPowerActionComboBox" Grid.Column="1">
+                                <ComboBoxItem Content="Do Nothing"/>
+                                <ComboBoxItem Content="Shut Down PC"/>
+                                <ComboBoxItem Content="Sleep / Standby PC"/>
+                                <ComboBoxItem Content="Hibernate PC"/>
+                                <ComboBoxItem Content="Lock Workstation"/>
+                            </ComboBox>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <!-- 3. CONNECTION TAB -->
             <TabItem Header="Connection">
                 <StackPanel Margin="10">
                     <GroupBox Header="Download Streams" Margin="0,0,0,10" Padding="8">
@@ -85,7 +132,7 @@
                 </StackPanel>
             </TabItem>
 
-            <!-- 3. APPEARANCE & LANGUAGE TAB -->
+            <!-- 4. APPEARANCE & LANGUAGE TAB -->
             <TabItem Header="Appearance">
                 <StackPanel Margin="10">
                     <GroupBox Header="Theme" Margin="0,0,0,10" Padding="8">
@@ -102,13 +149,13 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="Language / භාෂාව" Padding="8">
+                    <GroupBox Header="Language" Padding="8">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120"/>
                                 <ColumnDefinition Width="180"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Display Language:" VerticalAlignment="Center"/>
+                            <TextBlock Text="Interface Language:" VerticalAlignment="Center"/>
                             <ComboBox x:Name="LanguageComboBox" Grid.Column="1">
                                 <ComboBoxItem Content="English"/>
                                 <ComboBoxItem Content="සිංහල (Sinhala)"/>
@@ -121,8 +168,8 @@
 
         <!-- Footer Buttons -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" IsDefault="True" Width="75" Margin="0,0,8,0" Click="SaveButton_Click"/>
-            <Button Content="Cancel" IsCancel="True" Width="75" Click="CancelButton_Click"/>
+            <Button Content="Save Settings" Width="105" Margin="0,0,8,0" IsDefault="True" Click="SaveButton_Click"/>
+            <Button Content="Cancel" Width="80" IsCancel="True" Click="CancelButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

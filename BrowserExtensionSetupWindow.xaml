@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Browser Extension Setup — 1-Click Integration" 
         Icon="Resources/app.ico"
-        Height="540" Width="640" 
+        Height="610" Width="640" 
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{DynamicResource BgWindow}"
@@ -57,6 +57,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Google Chrome -->
@@ -105,6 +106,23 @@
                         <TextBlock Text="Works on all Chromium browsers with Developer mode" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
                     </StackPanel>
                     <Button Content="Setup Brave / Chromium" Grid.Column="1" Padding="12,4" Click="SetupBrave_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Mozilla Firefox -->
+            <GroupBox Grid.Row="3" Header="Mozilla Firefox Integration" Margin="0,8,0,0" Padding="10,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Mozilla Firefox" FontWeight="Bold"/>
+                        <TextBlock Text="Load add-on in about:debugging (gecko compatible)" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                    </StackPanel>
+                    <Button Content="1-Click Setup Firefox" Grid.Column="1" Padding="12,4" FontWeight="SemiBold" Margin="0,0,6,0" Click="SetupFirefox_Click"/>
+                    <Button Content="Open Addon Folder" Grid.Column="2" Padding="10,4" Click="OpenFirefoxFolder_Click"/>
                 </Grid>
             </GroupBox>
         </Grid>

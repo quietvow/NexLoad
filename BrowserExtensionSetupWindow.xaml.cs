@@ -106,6 +106,22 @@ namespace DOWN_MNG
             ShowSetupInstructions("Brave / Chromium");
         }
 
+        private void SetupFirefox_Click(object sender, RoutedEventArgs e)
+        {
+            BrowserExtensionManager.OpenFirefoxSetup();
+            string msg = "Mozilla Firefox debugging page and the Firefox extension folder have been opened.\n\nThe folder path is already copied to your clipboard!\n\nTo complete setup in Firefox:\n1. Click 'This Firefox' on the left menu (about:debugging#/runtime/this-firefox).\n2. Click 'Load Temporary Add-on...'.\n3. Select the 'manifest.json' file inside the opened firefox folder.\n\nNexLoad Pro is now linked with Firefox!";
+            MessageBox.Show(msg, "Firefox Integration", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void OpenFirefoxFolder_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("explorer.exe", BrowserExtensionManager.FirefoxExtensionDirectory);
+            }
+            catch { }
+        }
+
         private void CopyPath_Click(object sender, RoutedEventArgs e)
         {
             try

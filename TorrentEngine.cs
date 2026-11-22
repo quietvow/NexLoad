@@ -291,5 +291,25 @@ namespace DOWN_MNG
                 }
             }
         }
+
+        public async Task<bool> EnableSequentialStreamAsync(string? specificFilePath = null)
+        {
+            if (_manager == null || !_manager.HasMetadata) return false;
+
+            var targetFile = _manager.Files.FirstOrDefault(f => !string.IsNullOrEmpty(specificFilePath) && f.Path.Equals(specificFilePath, StringComparison.OrdinalIgnoreCase)) ??
+                             _manager.Files.FirstOrDefault(f => f.Path.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase) ||
+                                                                f.Path.EndsWith(".mkv", StringComparison.OrdinalIgnoreCase) ||
+                                                                f.Path.EndsWith(".avi", StringComparison.OrdinalIgnoreCase) ||
+                                                                f.Path.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)) ??
+                             _manager.Files.OrderByDescending(f => f.Length).FirstOrDefault();
+
+            if (targetFile != null)
+            {
+                await _manager.SetFilePriorityAsync(targetFile, Priority.Highest);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

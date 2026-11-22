@@ -62,8 +62,9 @@ namespace DOWN_MNG
             UrlTextBox.Text = url;
             if (!string.IsNullOrEmpty(filename))
             {
+                string cat = DownloadItem.DetermineCategory(filename);
                 FileNameTextBox.Text = filename;
-                PathTextBox.Text = Path.Combine(_defaultDownloadFolder, filename);
+                PathTextBox.Text = DownloadItem.GetDestinationPath(_defaultDownloadFolder, filename, cat, App.Settings.AutoSortCategories);
             }
 
             Loaded += (s, e) => AutoAnalyzeLink(url);
@@ -257,10 +258,11 @@ namespace DOWN_MNG
                     catch { }
 
                     _detectedSize = size;
+                    string ftpCat = DownloadItem.DetermineCategory(filename, "FTP");
                     FileNameTextBox.Text = filename;
                     FileSizeTextBlock.Text = size > 0 ? DownloadItem.FormatBytes(size) : "Unknown / FTP";
-                    CategoryBadgeText.Text = "FTP";
-                    PathTextBox.Text = Path.Combine(_defaultDownloadFolder, filename);
+                    CategoryBadgeText.Text = ftpCat;
+                    PathTextBox.Text = DownloadItem.GetDestinationPath(_defaultDownloadFolder, filename, ftpCat, App.Settings.AutoSortCategories);
                     StatusTextBlock.Text = "✓ FTP file details ready.";
                     DownloadButton.IsEnabled = true;
                     return;
@@ -289,10 +291,11 @@ namespace DOWN_MNG
                 }
 
                 _detectedSize = httpSize;
+                string cat = DownloadItem.DetermineCategory(responseFilename);
                 FileNameTextBox.Text = responseFilename;
                 FileSizeTextBlock.Text = httpSize > 0 ? DownloadItem.FormatBytes(httpSize) : "Unknown";
-                CategoryBadgeText.Text = DownloadItem.DetermineCategory(responseFilename);
-                PathTextBox.Text = Path.Combine(_defaultDownloadFolder, responseFilename);
+                CategoryBadgeText.Text = cat;
+                PathTextBox.Text = DownloadItem.GetDestinationPath(_defaultDownloadFolder, responseFilename, cat, App.Settings.AutoSortCategories);
 
                 StatusTextBlock.Text = "✓ File is ready to download.";
                 DownloadButton.IsEnabled = true;

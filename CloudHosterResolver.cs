@@ -58,7 +58,8 @@ namespace DOWN_MNG
                    lower.Contains("drive.google.com") ||
                    (lower.Contains("docs.google.com") && lower.Contains("/uc?")) ||
                    lower.Contains("dropbox.com") ||
-                   lower.Contains("gofile.io");
+                   lower.Contains("gofile.io") ||
+                   lower.Contains("catbox.moe");
         }
 
         public static string GetHosterName(string url)
@@ -72,6 +73,7 @@ namespace DOWN_MNG
             if (lower.Contains("drive.google.com") || lower.Contains("docs.google.com")) return "Google Drive";
             if (lower.Contains("dropbox.com")) return "Dropbox";
             if (lower.Contains("gofile.io")) return "GoFile";
+            if (lower.Contains("catbox.moe")) return "Catbox";
 
             return "Direct";
         }
@@ -97,6 +99,8 @@ namespace DOWN_MNG
                         return await ResolveDropboxAsync(url, cancellationToken);
                     case "GoFile":
                         return await ResolveGoFileAsync(url, cancellationToken);
+                    case "Catbox":
+                        return await ResolveCatboxAsync(url, cancellationToken);
                     default:
                         return null;
                 }
@@ -534,6 +538,45 @@ namespace DOWN_MNG
                 OriginalUrl = url,
                 DirectDownloadUrl = url,
                 FileName = $"GoFile_{contentId}"
+            };
+        }
+        #endregion
+
+        #region Catbox Resolver
+        private static async Task<CloudHosterResult> ResolveCatboxAsync(string url, CancellationToken ct)
+        {
+            string filename = "";
+            try
+            {
+                var uri = new Uri(url);
+                filename = Path.GetFileName(uri.AbsolutePath);
+            }
+            catch { }
+
+            if (string.IsNullOrEmpty(filename)) filename = $"Catbox_file_{DateTime.Now:yyyyMMdd_HHmmss}.bin";
+
+            long size = -1;
+            try
+            {
+                var head = new HttpRequestMessage(HttpMethod.Head, url);
+                using var res = await _httpClient.SendAsync(head, HttpCompletionOption.ResponseHeadersRead, ct);
+                if (res.Content.Headers.ContentLength.HasValue)
+                {
+                    size = res.Content.Headers.ContentLength.Value;
+                }
+            }
+            catch { }
+
+            return new CloudHosterResult
+            {
+                IsCloudHoster = true,
+                HosterName = "Catbox",
+                Platform = "Catbox",
+                OriginalUrl = url,
+                DirectDownloadUrl = url,
+                FileName = filename,
+                FileSize = size,
+                Category = DownloadItem.DetermineCategory(filename, "Catbox")
             };
         }
         #endregion

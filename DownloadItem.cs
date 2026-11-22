@@ -319,5 +319,24 @@ namespace DOWN_MNG
                     return "Others";
             }
         }
+
+        public static string GetDestinationPath(string baseFolder, string filename, string category, bool autoSort = true)
+        {
+            if (string.IsNullOrWhiteSpace(baseFolder))
+            {
+                string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                baseFolder = Path.Combine(userProfile, "Downloads", "SDM-Downloads");
+            }
+
+            if (!autoSort || string.IsNullOrWhiteSpace(category) || category == "Others" || category == "General")
+            {
+                if (!Directory.Exists(baseFolder)) Directory.CreateDirectory(baseFolder);
+                return Path.Combine(baseFolder, filename);
+            }
+
+            string catFolder = Path.Combine(baseFolder, category);
+            if (!Directory.Exists(catFolder)) Directory.CreateDirectory(catFolder);
+            return Path.Combine(catFolder, filename);
+        }
     }
 }
