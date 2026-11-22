@@ -57,6 +57,7 @@ namespace DOWN_MNG
                             string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                             settings.DefaultDownloadFolder = Path.Combine(userProfile, "Downloads", "SDM-Downloads");
                         }
+                        settings.CloseToTray = true;
                         return settings;
                     }
                 }

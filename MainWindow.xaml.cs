@@ -122,8 +122,8 @@ namespace DOWN_MNG
         private void MinimizeToTray_Click(object sender, RoutedEventArgs e)
         {
             Hide();
-            _trayIconManager?.Show("DOWN-MNG Pro — Running in Background");
-            _trayIconManager?.ShowBalloon("DOWN-MNG Pro", "Running in the background. Right-click the tray icon for quick actions.");
+            _trayIconManager?.Show("NexLoad Pro — Running in Background");
+            _trayIconManager?.ShowBalloon("NexLoad Pro", "Running in the background. Right-click the tray icon for quick actions.");
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -1327,13 +1327,13 @@ namespace DOWN_MNG
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            // If CloseToTray is enabled and not explicit exit, minimize to tray (IDM / JDownloader style)
-            if (!_isExplicitExit && App.Settings.CloseToTray)
+            // If not explicit exit, minimize to tray (IDM / JDownloader style: Keep running in background when 'X' is clicked)
+            if (!_isExplicitExit)
             {
                 e.Cancel = true;
                 Hide();
-                _trayIconManager?.Show("NexLoad Pro — Running in Background");
-                _trayIconManager?.ShowBalloon("NexLoad Pro", "Running in the background. Downloads & browser capture remain active.");
+                _trayIconManager?.Show("NexLoad Pro — Active in Background");
+                _trayIconManager?.ShowBalloon("NexLoad Pro", "Running in the background. Downloads and browser capture remain active.");
                 return;
             }
 
