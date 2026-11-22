@@ -1,0 +1,89 @@
+<Window x:Class="DOWN_MNG.DownloadCompleteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Download Complete" 
+        Height="275" Width="540" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{DynamicResource BgWindow}"
+        Foreground="{DynamicResource TextPrimary}"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="16,14,16,14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- 1. Header with Icon and File Name -->
+            <RowDefinition Height="*"/>    <!-- 2. Details Box -->
+            <RowDefinition Height="Auto"/> <!-- 3. Options Checkbox -->
+            <RowDefinition Height="Auto"/> <!-- 4. Action Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- 1. Header with Icon and File Name -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Success Badge Icon -->
+            <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" Background="#10B981" Margin="0,0,12,0" VerticalAlignment="Center">
+                <TextBlock Text="✓" FontSize="22" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <!-- File Name & Completed Subtitle -->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="FileNameTextBlock" Text="DownloadedFile.ext" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" TextTrimming="CharacterEllipsis"/>
+                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                    <TextBlock Text="Download Complete" FontWeight="SemiBold" Foreground="#10B981" Margin="0,0,8,0"/>
+                    <TextBlock Text="•" Foreground="{DynamicResource TextMuted}" Margin="0,0,8,0"/>
+                    <TextBlock x:Name="FileSizeTextBlock" Text="0 MB" Foreground="{DynamicResource TextSecondary}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- 2. Details Box -->
+        <Border Grid.Row="1" Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Padding="10,8" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="22"/>
+                    <RowDefinition Height="22"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Save to:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                <TextBlock x:Name="SavePathTextBlock" Grid.Row="0" Grid.Column="1" Text="C:\Downloads\..." FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Foreground="{DynamicResource TextPrimary}" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="URL:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                <TextBlock x:Name="UrlTextBlock" Grid.Row="1" Grid.Column="1" Text="https://..." Foreground="{DynamicResource TextMuted}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
+            </Grid>
+        </Border>
+
+        <!-- 3. Options Checkbox -->
+        <CheckBox x:Name="DontShowAgainCheckBox" Grid.Row="2" Content="Don't show this dialog again (Auto-close on completion)" Margin="0,0,0,12" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}"/>
+
+        <!-- 4. Action Buttons -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Open Button (Default) -->
+            <Button x:Name="OpenButton" Grid.Column="1" Content="Open" Width="85" Margin="0,0,6,0" FontWeight="SemiBold" IsDefault="True" Click="OpenButton_Click"/>
+
+            <!-- Open With Button -->
+            <Button x:Name="OpenWithButton" Grid.Column="2" Content="Open with..." Width="90" Margin="0,0,6,0" Click="OpenWithButton_Click"/>
+
+            <!-- Open Folder Button -->
+            <Button x:Name="OpenFolderButton" Grid.Column="3" Content="Open Folder" Width="95" Margin="0,0,6,0" Click="OpenFolderButton_Click"/>
+
+            <!-- Close Button -->
+            <Button x:Name="CloseButton" Grid.Column="4" Content="Close" Width="75" IsCancel="True" Click="CloseButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

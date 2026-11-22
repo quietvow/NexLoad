@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Download Progress" 
-        Height="500" Width="600" 
+        Height="475" Width="600" 
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource BgWindow}"
         Foreground="{DynamicResource TextPrimary}"
@@ -11,98 +11,181 @@
     
     <Grid Margin="12">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Tab Control Area -->
-            <RowDefinition Height="Auto"/> <!-- Main Progress Bar -->
-            <RowDefinition Height="Auto"/> <!-- Control Buttons Row -->
-            <RowDefinition Height="Auto"/> <!-- Connection Header -->
-            <RowDefinition Height="Auto"/> <!-- Segment Bar Visualizer -->
-            <RowDefinition Height="*"/>    <!-- Connections Table Grid -->
+            <RowDefinition Height="*"/>    <!-- 0. Tab Control Area -->
+            <RowDefinition Height="Auto"/> <!-- 1. Main Progress Bar -->
+            <RowDefinition Height="Auto"/> <!-- 2. Control Buttons Row -->
         </Grid.RowDefinitions>
 
-        <!-- 1. TABS AREA -->
-        <TabControl Grid.Row="0" Margin="0,0,0,10">
+        <!-- 0. TABS AREA -->
+        <TabControl x:Name="ProgressTabControl" Grid.Row="0" Margin="0,0,0,10">
+            <!-- TAB 1: Download Status -->
             <TabItem Header="Download status">
-                <!-- Info Inner Panel -->
-                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="10" Height="175">
+                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="12">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         
-                        <!-- URL text box -->
-                        <Border Grid.Row="0" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Padding="4,2" Margin="0,0,0,8">
+                        <!-- URL Bar -->
+                        <Border Grid.Row="0" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Padding="6,3" Margin="0,0,0,10">
                             <TextBlock x:Name="UrlTextBlock" 
                                        Text="https://download.example.com/file" 
                                        FontWeight="SemiBold"
-                                       TextTrimming="CharacterEllipsis"/>
+                                       Foreground="{DynamicResource TextPrimary}"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"/>
                         </Border>
                         
                         <!-- Details Grid -->
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="140"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
-                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Status:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="StatusTextBlock" Grid.Row="0" Grid.Column="1" Text="Receiving data..." FontWeight="Bold" Foreground="{DynamicResource AccentPrimary}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Status:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="StatusTextBlock" Grid.Row="0" Grid.Column="1" Text="Receiving data..." FontWeight="Bold" Foreground="{DynamicResource AccentPrimary}" VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="File size:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="SizeTextBlock" Grid.Row="1" Grid.Column="1" Text="-- MB"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="File size:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="SizeTextBlock" Grid.Row="1" Grid.Column="1" Text="-- MB" VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Downloaded:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="DownloadedTextBlock" Grid.Row="2" Grid.Column="1" Text="0 MB (0%)"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Downloaded:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DownloadedTextBlock" Grid.Row="2" Grid.Column="1" Text="0 MB (0%)" VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Transfer rate:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="SpeedTextBlock" Grid.Row="3" Grid.Column="1" Text="-- MB/sec" FontWeight="Bold" Foreground="{DynamicResource StatusSuccess}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Transfer rate:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="SpeedTextBlock" Grid.Row="3" Grid.Column="1" Text="-- MB/sec" FontWeight="Bold" Foreground="{DynamicResource StatusSuccess}" VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Time left:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="TimeLeftTextBlock" Grid.Row="4" Grid.Column="1" Text="-- sec"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Time left:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TimeLeftTextBlock" Grid.Row="4" Grid.Column="1" Text="-- sec" VerticalAlignment="Center"/>
 
-                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Resume capability:" Foreground="{DynamicResource TextSecondary}"/>
-                            <TextBlock x:Name="ResumeCapabilityTextBlock" Grid.Row="5" Grid.Column="1" Text="Yes" FontWeight="Bold" Foreground="{DynamicResource StatusSuccess}"/>
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Resume capability:" Foreground="{DynamicResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="ResumeCapabilityTextBlock" Grid.Row="5" Grid.Column="1" Text="Yes" FontWeight="Bold" Foreground="{DynamicResource StatusSuccess}" VerticalAlignment="Center"/>
                         </Grid>
                     </Grid>
                 </Border>
             </TabItem>
+
+            <!-- TAB 2: Speed & Streams -->
             <TabItem Header="Speed &amp; Streams">
-                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="12" Height="175">
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Multi-Threaded Stream Engine: Active" FontWeight="Bold" Foreground="{DynamicResource AccentPrimary}" Margin="0,0,0,4"/>
-                        <TextBlock Text="High-speed dynamic segmentation divides downloads into parallel chunks for maximum throughput." Foreground="{DynamicResource TextSecondary}"/>
-                    </StackPanel>
+                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/> <!-- Metrics Bar -->
+                            <RowDefinition Height="Auto"/> <!-- Segment Label -->
+                            <RowDefinition Height="Auto"/> <!-- Segment Bar -->
+                            <RowDefinition Height="*"/>    <!-- Connections ListView -->
+                        </Grid.RowDefinitions>
+
+                        <!-- Live Metrics Bar -->
+                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="●" Foreground="#10B981" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ActiveStreamsTextBlock" Text="8 Multi-Threaded Streams Active" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <TextBlock Text="Peak: " Foreground="{DynamicResource TextSecondary}"/>
+                                <TextBlock x:Name="PeakSpeedTextBlock" Text="0 KB/s" FontWeight="SemiBold" Foreground="{DynamicResource AccentPrimary}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Average: " Foreground="{DynamicResource TextSecondary}"/>
+                                <TextBlock x:Name="AvgSpeedTextBlock" Text="0 KB/s" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimary}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Segment Label -->
+                        <TextBlock Grid.Row="1" Text="Start positions and download progress by connections:" 
+                                   Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Left" Margin="0,0,0,4"/>
+
+                        <!-- Segmented Progress Bar -->
+                        <Border Grid.Row="2" BorderBrush="{DynamicResource BorderMedium}" BorderThickness="1" Height="18" Background="{DynamicResource BgSidebar}" Margin="0,0,0,8">
+                            <ItemsControl x:Name="ChunksItemsControl">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="8" Rows="1"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ProgressBar Value="{Binding ProgressPercentage, Mode=OneWay}" 
+                                                     Style="{DynamicResource IDMConnectionProgressBar}" 
+                                                     Margin="0"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+
+                        <!-- Connections Table -->
+                        <ListView x:Name="ConnectionsListView" Grid.Row="3" Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="N." DisplayMemberBinding="{Binding DisplayId}" Width="35"/>
+                                    <GridViewColumn Header="Downloaded" DisplayMemberBinding="{Binding DisplayDownloaded}" Width="130"/>
+                                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DisplayInfo}" Width="375"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </Border>
             </TabItem>
+
+            <!-- TAB 3: Options on Completion -->
             <TabItem Header="Options on completion">
-                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="12" Height="175">
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="Post-Download Automation:" FontWeight="Bold" Margin="0,0,0,4"/>
-                        <TextBlock Text="Automatic file integrity check and desktop notification enabled." Foreground="{DynamicResource TextSecondary}"/>
+                <Border BorderBrush="{DynamicResource BorderLight}" BorderThickness="1" Background="{DynamicResource BgPanel}" Padding="16,14">
+                    <StackPanel>
+                        <TextBlock Text="Automatic actions when download finishes:" FontWeight="Bold" Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,10"/>
+
+                        <!-- Checkbox 1: Show Download Complete Dialog -->
+                        <CheckBox x:Name="ShowCompleteDialogCheckBox" Content="Show 'Download Complete' dialog when finished" IsChecked="True" Margin="0,0,0,8" VerticalAlignment="Center"/>
+
+                        <!-- Checkbox 2: Auto-close Progress Window -->
+                        <CheckBox x:Name="AutoCloseCheckBox" Content="Close this progress window automatically on completion" IsChecked="True" Margin="0,0,0,8" VerticalAlignment="Center"/>
+
+                        <!-- Checkbox 3: Open File on Completion -->
+                        <CheckBox x:Name="OpenFileCheckBox" Content="Open file automatically when finished" IsChecked="False" Margin="0,0,0,8" VerticalAlignment="Center"/>
+
+                        <!-- Checkbox 4: Open Containing Folder -->
+                        <CheckBox x:Name="OpenFolderCheckBox" Content="Open containing folder in File Explorer on completion" IsChecked="False" Margin="0,0,0,8" VerticalAlignment="Center"/>
+
+                        <!-- Checkbox 5: Play Notification Sound -->
+                        <CheckBox x:Name="PlaySoundCheckBox" Content="Play notification sound on completion" IsChecked="True" Margin="0,0,0,8" VerticalAlignment="Center"/>
+
+                        <Separator Margin="0,6,0,10"/>
+
+                        <!-- Checkbox 6: Shutdown Computer -->
+                        <CheckBox x:Name="ShutdownCheckBox" Content="Hang up connection and shut down computer when done" IsChecked="False" Margin="0,0,0,8" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Border>
             </TabItem>
         </TabControl>
 
-        <!-- 2. MAIN PROGRESS BAR -->
-        <Grid Grid.Row="1" Margin="0,0,0,8">
-            <ProgressBar x:Name="GlobalProgressBar" Height="18" Style="{DynamicResource IDMMainProgressBar}"/>
-            <TextBlock x:Name="GlobalProgressText" Text="0%" 
+        <!-- 1. MAIN PROGRESS BAR -->
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <ProgressBar x:Name="GlobalProgressBar" Height="20" Style="{DynamicResource IDMMainProgressBar}"/>
+            <TextBlock x:Name="GlobalProgressText" Text="0.0%" 
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        FontWeight="SemiBold" FontSize="11" 
                        Foreground="{DynamicResource TextPrimary}"/>
         </Grid>
 
-        <!-- 3. CONTROL BUTTONS ROW -->
-        <Grid Grid.Row="2" Margin="0,0,0,8">
+        <!-- 2. CONTROL BUTTONS ROW -->
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -111,7 +194,7 @@
             </Grid.ColumnDefinitions>
             
             <Button x:Name="OpenFolderButton" Content="Open Folder" Grid.Column="0"
-                    Padding="10,2" Click="OpenFolderButton_Click"/>
+                    Padding="12,3" Click="OpenFolderButton_Click"/>
             
             <Button x:Name="PauseResumeButton" Content="Pause" Grid.Column="2"
                     Width="85" Margin="0,0,6,0" Click="PauseResumeButton_Click"/>
@@ -119,38 +202,5 @@
             <Button x:Name="CancelButton" Content="Cancel" Grid.Column="3"
                     Width="75" Click="CancelButton_Click"/>
         </Grid>
-
-        <!-- 4. CONNECTION PROGRESS HEADER -->
-        <TextBlock Grid.Row="3" Text="Start positions and download progress by connections:" 
-                   Foreground="{DynamicResource TextSecondary}" HorizontalAlignment="Left" Margin="0,0,0,4"/>
-
-        <!-- 5. SEGMENTED CONNECTION BAR -->
-        <Border Grid.Row="4" BorderBrush="{DynamicResource BorderMedium}" BorderThickness="1" Height="18" Background="{DynamicResource BgPanel}" Margin="0,0,0,8">
-            <ItemsControl x:Name="ChunksItemsControl">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="8" Rows="1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ProgressBar Value="{Binding ProgressPercentage, Mode=OneWay}" 
-                                     Style="{DynamicResource IDMConnectionProgressBar}" 
-                                     Margin="0"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Border>
-
-        <!-- 6. DETAILED CONNECTIONS TABLE -->
-        <ListView x:Name="ConnectionsListView" Grid.Row="5" Height="120" Background="{DynamicResource BgPanel}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="N." DisplayMemberBinding="{Binding DisplayId}" Width="35"/>
-                    <GridViewColumn Header="Downloaded" DisplayMemberBinding="{Binding DisplayDownloaded}" Width="140"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding DisplayInfo}" Width="360"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
     </Grid>
 </Window>

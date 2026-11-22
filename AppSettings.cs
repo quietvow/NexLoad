@@ -16,6 +16,11 @@ namespace DOWN_MNG
         public bool RunInBackground { get; set; } = true;
         public bool PlaySoundOnCompletion { get; set; } = true;
         public bool StartDownloadsAutomatically { get; set; } = true;
+        public bool ShowDownloadCompleteDialog { get; set; } = true;
+        public bool CloseProgressWindowOnCompletion { get; set; } = true;
+        public bool OpenFileOnCompletion { get; set; } = false;
+        public bool OpenFolderOnCompletion { get; set; } = false;
+        public bool ShutdownOnCompletion { get; set; } = false;
         public string Theme { get; set; } = "Light"; // Light, Dark
         public string Language { get; set; } = "en"; // en, si
 

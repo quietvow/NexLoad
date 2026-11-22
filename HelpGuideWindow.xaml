@@ -100,7 +100,7 @@
                         <TextBlock Text="Local Communication Port: 3015" FontWeight="Bold" FontSize="13" Margin="0,0,0,4"/>
                         <TextBlock Text="The extension communicates with NexLoad via a lightweight local HTTP server (http://localhost:3015) with zero internet exposure." TextWrapping="Wrap" Foreground="{DynamicResource TextSecondary}"/>
 
-                        <Border Margin="0,16,0,0" Padding="12" Background="{DynamicResource BgCard}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                        <Border Margin="0,16,0,0" Padding="12" Background="{DynamicResource BgSidebar}" BorderBrush="{DynamicResource BorderLight}" BorderThickness="1">
                             <StackPanel>
                                 <TextBlock Text="Quick 1-Click Setup Tool" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
                                 <TextBlock Text="Use our automated 1-Click setup wizard to detect Chrome/Edge, load the extension automatically, and verify connection instantly." TextWrapping="Wrap" Margin="0,0,0,10" Foreground="{DynamicResource TextSecondary}"/>

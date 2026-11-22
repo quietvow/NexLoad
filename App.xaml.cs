@@ -65,6 +65,17 @@ public partial class App : Application
                 }
                 merged.Add(newThemeDict);
                 Settings.Theme = themeName;
+
+                // Propagate theme directly to all active open windows so Popups, Menus, and controls adapt immediately
+                foreach (Window win in Application.Current.Windows)
+                {
+                    try
+                    {
+                        win.Resources.MergedDictionaries.Clear();
+                        win.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = dictUri });
+                    }
+                    catch { }
+                }
             }
         }
         catch { }

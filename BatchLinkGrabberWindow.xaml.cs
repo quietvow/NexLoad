@@ -180,7 +180,7 @@ namespace DOWN_MNG
 
         private void PlatformFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!IsLoaded) return;
+            if (!IsLoaded || _allItems == null || _displayedItems == null || LinksListView == null) return;
             ApplyPlatformFilter();
             UpdateCounts();
         }

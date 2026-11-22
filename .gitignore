@@ -3,6 +3,7 @@
 [Oo]bj/
 [Cc]ache/
 .vs/
+.wix/
 *.user
 *.suo
 *.userosscache

@@ -45,9 +45,10 @@
         <GroupBox Grid.Row="1" Header="Video Information &amp; Quality" Margin="0,0,0,8" Padding="8">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/> <!-- Media Info -->
+                    <RowDefinition Height="Auto"/> <!-- Separator -->
+                    <RowDefinition Height="Auto"/> <!-- Format Selector -->
+                    <RowDefinition Height="Auto"/> <!-- Status Strip -->
                 </Grid.RowDefinitions>
 
                 <!-- Media Info (Thumbnail + Details) -->
@@ -78,23 +79,26 @@
                     </StackPanel>
                 </Grid>
 
-                <Separator Grid.Row="1" VerticalAlignment="Top" Margin="0,0,0,6"/>
+                <Separator Grid.Row="1" Margin="0,4,0,6"/>
 
                 <!-- Format Selection Grid -->
-                <Grid Grid.Row="1" Margin="0,8,0,0">
+                <Grid Grid.Row="2" Margin="0,0,0,6" VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Select Download Quality and Format:" Margin="0,0,0,4"/>
-                    <ComboBox x:Name="FormatComboBox" Grid.Row="1" Height="26" DisplayMemberPath="Label" SelectionChanged="FormatComboBox_SelectionChanged"/>
+                    <ComboBox x:Name="FormatComboBox" Grid.Row="1" Height="26" VerticalAlignment="Top" 
+                              Background="{DynamicResource BgPanel}" Foreground="{DynamicResource TextPrimary}" 
+                              BorderBrush="{DynamicResource BorderLight}"
+                              DisplayMemberPath="Label" SelectionChanged="FormatComboBox_SelectionChanged"/>
                 </Grid>
 
                 <!-- Status Feedback Strip -->
-                <TextBlock x:Name="StatusTextBlock" Grid.Row="2" 
+                <TextBlock x:Name="StatusTextBlock" Grid.Row="3" 
                            Text="Enter a video link from YouTube, Facebook, or TikTok above and click Fetch Info." 
-                           Foreground="{DynamicResource AccentPrimary}" Margin="0,8,0,0"/>
+                           Foreground="{DynamicResource AccentPrimary}" Margin="0,4,0,0"/>
             </Grid>
         </GroupBox>
 

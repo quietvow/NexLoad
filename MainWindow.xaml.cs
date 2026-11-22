@@ -464,6 +464,13 @@ namespace DOWN_MNG
                                 _trayIconManager?.ShowBalloon("Download Complete", $"{completedItem.Filename} has finished downloading.");
                             }
 
+                            // Show Download Complete window if not already shown by DownloadProgressWindow
+                            if (!_openProgressWindows.ContainsKey(completedItem.Id) && App.Settings.ShowDownloadCompleteDialog)
+                            {
+                                var completeWin = new DownloadCompleteWindow(completedItem);
+                                completeWin.Show();
+                            }
+
                             // Automated Scheduler completion actions
                             if (_schedulerSettings.Enabled && _schedulerSettings.CompletionAction != "None")
                             {
@@ -821,6 +828,43 @@ namespace DOWN_MNG
             }
         }
 
+        private void ShowDownloadProgress_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = DownloadsListView.SelectedItem as DownloadItem;
+            if (selected == null)
+            {
+                MessageBox.Show("Please select a download item from the list first.", "Download Progress", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            OpenOrFocusProgressWindow(selected);
+        }
+
+        private void OpenOrFocusProgressWindow(DownloadItem item)
+        {
+            if (item == null) return;
+
+            Dispatcher.Invoke(() =>
+            {
+                if (_openProgressWindows.TryGetValue(item.Id, out var existingWin) && existingWin.IsLoaded)
+                {
+                    existingWin.Activate();
+                    existingWin.Focus();
+                    return;
+                }
+
+                if (!_activeEngines.TryGetValue(item.Id, out var engine))
+                {
+                    engine = new DownloadEngine(item, App.Settings.DefaultConnections);
+                    _activeEngines[item.Id] = engine;
+                }
+
+                var progressWin = new DownloadProgressWindow(item, engine) { Owner = this };
+                _openProgressWindows[item.Id] = progressWin;
+                progressWin.Closed += (s, args) => _openProgressWindows.Remove(item.Id);
+                progressWin.Show();
+            });
+        }
+
         private void DownloadsListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var selected = DownloadsListView.SelectedItem as DownloadItem;
@@ -832,7 +876,7 @@ namespace DOWN_MNG
                 }
                 else
                 {
-                    StartDownload(selected, true);
+                    OpenOrFocusProgressWindow(selected);
                 }
             }
         }

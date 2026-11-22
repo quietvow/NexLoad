@@ -55,6 +55,7 @@
                 <Border Background="{DynamicResource BgPanel}" 
                         BorderBrush="{DynamicResource BorderLight}" 
                         BorderThickness="1" Padding="2"
+                        TextElement.Foreground="{DynamicResource TextPrimary}"
                         SnapsToDevicePixels="True">
                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                 </Border>
@@ -82,7 +83,7 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemGestureColumnGroup"/>
                 </Grid.ColumnDefinitions>
                 <ContentPresenter ContentSource="Icon" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                <ContentPresenter Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center"/>
+                <ContentPresenter Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True" VerticalAlignment="Center" TextElement.Foreground="{TemplateBinding Foreground}"/>
                 <TextBlock Grid.Column="2" Text="{TemplateBinding InputGestureText}" 
                            Foreground="{DynamicResource TextMuted}" Margin="16,0,4,0" 
                            VerticalAlignment="Center"/>
@@ -120,6 +121,7 @@
                 <Border Background="{DynamicResource BgPanel}" 
                         BorderBrush="{DynamicResource BorderLight}" 
                         BorderThickness="1" Padding="2"
+                        TextElement.Foreground="{DynamicResource TextPrimary}"
                         SnapsToDevicePixels="True">
                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                 </Border>
@@ -145,9 +147,13 @@
 
     <Style TargetType="MenuItem">
         <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template" Value="{StaticResource SubmenuItemTemplate}"/>
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource TopLevelHeaderTemplate}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
                 <Setter Property="Template" Value="{StaticResource TopLevelHeaderTemplate}"/>
             </Trigger>
             <Trigger Property="Role" Value="SubmenuHeader">
@@ -171,6 +177,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             Padding="{TemplateBinding Padding}"
+                            TextElement.Foreground="{DynamicResource TextPrimary}"
                             SnapsToDevicePixels="True">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Border>

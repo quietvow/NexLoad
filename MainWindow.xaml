@@ -43,6 +43,8 @@
                 <MenuItem Header="{DynamicResource MenuExit}" InputGestureText="Alt+F4" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="{DynamicResource MenuFile}">
+                <MenuItem Header="Download Status / Progress..." Click="ShowDownloadProgress_Click"/>
+                <Separator/>
                 <MenuItem Header="{DynamicResource MenuDownloadNow}" Click="DownloadNow_Click"/>
                 <MenuItem Header="{DynamicResource MenuStop}" Click="StopDownload_Click"/>
                 <MenuItem Header="{DynamicResource MenuOpenFile}" Click="OpenFile_Click"/>
@@ -54,6 +56,8 @@
                 <MenuItem Header="{DynamicResource MenuDeleteFile}" Click="DeleteFileFromDisk_Click"/>
             </MenuItem>
             <MenuItem Header="{DynamicResource MenuDownloads}">
+                <MenuItem Header="Download Status / Progress..." Click="ShowDownloadProgress_Click"/>
+                <Separator/>
                 <MenuItem Header="{DynamicResource MenuStartQueue}" Click="StartAll_Click"/>
                 <MenuItem Header="{DynamicResource MenuStopQueue}" Click="PauseAll_Click"/>
                 <Separator/>
@@ -373,7 +377,9 @@
                       MouseDoubleClick="DownloadsListView_MouseDoubleClick">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{DynamicResource MenuDownloadNow}" FontWeight="Bold" Click="DownloadNow_Click"/>
+                        <MenuItem Header="Download Status / Progress..." FontWeight="Bold" Click="ShowDownloadProgress_Click"/>
+                        <Separator/>
+                        <MenuItem Header="{DynamicResource MenuDownloadNow}" Click="DownloadNow_Click"/>
                         <MenuItem Header="{DynamicResource MenuStop}" Click="StopDownload_Click"/>
                         <Separator/>
                         <MenuItem Header="{DynamicResource MenuOpenFile}" Click="OpenFile_Click"/>
