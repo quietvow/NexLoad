@@ -40,8 +40,23 @@ Whether downloading massive files with multi-threaded chunking, streaming media 
   - Powered by embedded **MonoTorrent 3.0.2** with DHT, peer exchange, and a selective file selection dialog for multi-file torrents.
 - **📋 Batch Link Grabber (From Text):**
   - Paste any block of raw text, chat log, email, or HTML; NexLoad extracts, deduplicates, and filters every link automatically with live cloud metadata resolution.
-- **🔌 1-Click Browser Extension (Chrome, Edge, Brave):**
-  - Automatically captures downloads and right-click media links from all Chromium browsers via a lightweight local server (`localhost:3015`).
+- **🎯 Desktop Mini Floating Drop Target (Desktop Floater):**
+  - Always-on-top translucent widget showing live queue speed (`MB/s`), active count, and progress bar.
+  - Drop links, URLs, or `.torrent` files directly onto it to download instantly without opening the main window.
+- **🚦 Smart Sequential Queue Management:**
+  - Configurable maximum concurrent downloads (1, 2, 3, or 5 files) to maximize single-file bandwidth.
+  - Auto-starts the next queued file immediately upon download completion or error.
+- **📁 Smart File Categories & Subfolder Routing:**
+  - Auto-detects file types and sorts downloads into organized category folders (`Compressed`, `Programs`, `Video`, `Music`, `Document`).
+- **🔍 File Integrity & Checksum Verifier (MD5, SHA-1, SHA-256):**
+  - Built into the IDM-style Download Complete dialog and right-click context menu.
+  - 1-click hash calculation and instant match verification against website checksums.
+- **📦 JDownloader Style Archive Auto-Extractor:**
+  - Automatically unpacks `.zip`, `.rar`, and `.7z` archives upon download completion.
+- **🎬 Torrent Sequential Streaming & VLC Preview:**
+  - High-priority piece picking allows streaming and previewing videos directly with VLC while the torrent is actively downloading.
+- **🔌 1-Click Browser Extension (Chrome, Edge, Brave & Firefox):**
+  - Full support for Chromium browsers and **Mozilla Firefox** (Gecko Manifest V3) via local server (`localhost:3015`).
 - **🛡️ True IDM-Style Background Mode:**
   - Minimize or close directly to the **System Tray Notification Area** (`CloseToTray = true`).
   - Auto-start silently on Windows boot via the `--background` switch.
@@ -97,6 +112,13 @@ Built-in user manual and integration instructions.
 ---
 
 ## 🚀 Installation & Quick Start
+
+### Pre-Built Binaries (Releases)
+
+Download ready-to-run packages directly from [GitHub Releases](https://github.com/quietvow/NexLoad/releases):
+- 📦 **Setup Installer (EXE):** `NexLoad-v1.0.0-Setup.exe` (Recommended for most users)
+- 🛡️ **Enterprise Windows Installer (MSI):** `NexLoad-v1.0.0-Setup.msi`
+- 💼 **Portable Archive (ZIP):** `NexLoad-v1.0.0-windows-x64.zip` (No install required)
 
 ### Prerequisites
 - **Operating System:** Windows 10 or Windows 11 (64-bit recommended).
