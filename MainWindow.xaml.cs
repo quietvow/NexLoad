@@ -90,6 +90,13 @@ namespace DOWN_MNG
             try
             {
                 _trayIconManager = new TrayIconManager(this);
+                _trayIconManager.TrayClicked += () =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RestoreFromTray();
+                    });
+                };
                 _trayIconManager.TrayDoubleClicked += () =>
                 {
                     Dispatcher.Invoke(() =>
