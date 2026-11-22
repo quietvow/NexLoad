@@ -4,6 +4,9 @@
     
     <MediaTemplate EmbedCab="yes" />
 
+    <Icon Id="NexLoadIcon" SourceFile="Resources\app.ico" />
+    <Property Id="ARPPRODUCTICON" Value="NexLoadIcon" />
+
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="NexLoad">
         <Directory Id="BrowserExtensionFolder" Name="BrowserExtension" />
@@ -86,6 +89,15 @@
       <Component Guid="8501168f-f7d1-419b-a010-000000000022">
         <File Source="publish\win-x64\BrowserExtension\background.js" KeyPath="yes" />
       </Component>
+      <Component Guid="8501168f-f7d1-419b-a010-000000000023">
+        <File Source="publish\win-x64\BrowserExtension\icon16.png" KeyPath="yes" />
+      </Component>
+      <Component Guid="8501168f-f7d1-419b-a010-000000000024">
+        <File Source="publish\win-x64\BrowserExtension\icon48.png" KeyPath="yes" />
+      </Component>
+      <Component Guid="8501168f-f7d1-419b-a010-000000000025">
+        <File Source="publish\win-x64\BrowserExtension\icon128.png" KeyPath="yes" />
+      </Component>
     </ComponentGroup>
 
     <Component Id="ApplicationShortcut" Directory="ApplicationProgramsFolder" Guid="a1b2c3d4-e5f6-7890-abcd-ef0123456789">
@@ -93,7 +105,8 @@
                 Name="NexLoad Pro"
                 Description="NexLoad Pro High-Speed Download Accelerator"
                 Target="[INSTALLFOLDER]NexLoad.exe"
-                WorkingDirectory="INSTALLFOLDER" />
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="NexLoadIcon" />
       <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
       <RegistryValue Root="HKCU" Key="Software\NexLoad" Name="installed" Type="integer" Value="1" KeyPath="yes" />
     </Component>
@@ -103,7 +116,8 @@
                 Name="NexLoad Pro"
                 Description="NexLoad Pro High-Speed Download Accelerator"
                 Target="[INSTALLFOLDER]NexLoad.exe"
-                WorkingDirectory="INSTALLFOLDER" />
+                WorkingDirectory="INSTALLFOLDER"
+                Icon="NexLoadIcon" />
       <RegistryValue Root="HKCU" Key="Software\NexLoad" Name="desktop_shortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>
 

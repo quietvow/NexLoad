@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:DOWN_MNG"
         Title="{DynamicResource AppTitle}" 
+        Icon="Resources/app.ico"
         Height="700" Width="1160"
         MinHeight="500" MinWidth="850"
         WindowStartupLocation="CenterScreen"

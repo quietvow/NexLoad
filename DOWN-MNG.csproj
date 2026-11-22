@@ -17,7 +17,13 @@
     <FileVersion>1.0.0.0</FileVersion>
     <Description>NexLoad Pro — Next-Generation High-Speed Download Accelerator, BitTorrent Client &amp; Cloud Media Grabber for Windows.</Description>
     <RepositoryUrl>https://github.com/quietvow/NexLoad</RepositoryUrl>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\app.ico" />
+    <Resource Include="Resources\app.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MegaApiClient" Version="1.10.5" />
